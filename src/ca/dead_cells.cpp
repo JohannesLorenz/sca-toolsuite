@@ -63,8 +63,11 @@ int main(int argc, char** argv)
 	HelpStruct help;
 	help.syntax = "ca/dead_cells <ca-table-file>"
 		"";
-	help.description = "TODO: describe 0, 1, 2, 3\n"
-		"...";
+	help.description = "Returns grid of dead cells:\n"
+		" 3 - cell is in dead state (regardless of grid)\n"
+		" 2 - cell is assumed dead as it's a border cell\n"
+		" 1 - cell can never get active because of (fixed) neighbours\n"
+		" 0 - cell might get active";
 	help.add_param("<ca-table-file>", "path to ca in table format");
 	help.input = "the input configuration";
 	help.output = "the dead cells grid";

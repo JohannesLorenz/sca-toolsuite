@@ -64,11 +64,10 @@ int main(int argc, char** argv)
 	HelpStruct help;
 	help.syntax = "ca/active_cells <ca-table-file>"
 		"";
-	help.description = "TODO: ...\n"
-		"...";
+	help.description = "Visualizes which cells are active";
 	help.add_param("<ca-table-file>", "path to ca in table format");
 	help.input = "the input configuration";
-	help.output = "the dead cells grid";
+	help.output = "boolean grid which is true where the input grid is active";
 
 	MyProgram p;
 	return p.run(argc, argv, &help);
