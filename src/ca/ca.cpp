@@ -84,7 +84,7 @@ class MyProgram : public Program, sim::ulator
 	}
 
 	template<class CaType>
-	exit_t func(ca::simulator_t<CaType,  def_coord_traits, def_cell_traits> simulator,
+	exit_t func(ca::simulator_t<CaType,  def_coord_traits, def_cell_traits>& simulator,
 		const sim_type& sim,
 		const int& num_steps,
 		const bool& async,
@@ -92,8 +92,10 @@ class MyProgram : public Program, sim::ulator
 	{
 		using ca_sim_t = ca::simulator_t<CaType,  def_coord_traits, def_cell_traits>;
 
-		FILE* const in_fp = stdin;
-		FILE* const out_fp = stdout;
+		//FILE* const in_fp = stdin;
+		//FILE* const out_fp = stdout;
+		std::istream& in_fp = std::cin;
+		std::ostream& out_fp = std::cout;
 
 		sca_random::set_seed(seed);
 
@@ -109,7 +111,7 @@ class MyProgram : public Program, sim::ulator
 				break;
 		}
 
-		simulator.grid().read(in_fp);
+		in_fp >> simulator.grid();
 
 #if 0
 		(void)in_fp;
@@ -134,8 +136,7 @@ class MyProgram : public Program, sim::ulator
 			{
 				if(sim == sim_type::anim)
 				 os_clear();
-				simulator.grid().write(out_fp);
-				fputc('\n', out_fp);
+				out_fp << simulator.grid() << std::endl;
 				switch(sim)
 				{
 					case sim_type::anim:
@@ -157,9 +158,9 @@ class MyProgram : public Program, sim::ulator
 
 		if(sim == sim_type::anim)
 		 os_clear();
-		simulator.grid().write(out_fp);
+		out_fp << simulator.grid();
 		if(sim == sim_type::anim) {
-			fputc('\n', out_fp);
+			out_fp << std::endl;
 			os_sleep(1);
 		}
 

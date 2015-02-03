@@ -241,7 +241,7 @@ public:
 	//! returns whether cell at point @a p is active.
 	//! @a result is set to the result in all cases
 	// TODO: overloads
-	// TODO: deprecated
+	// TODO: deprecated -> ? -> probably not anymore...
 	bool is_cell_active(const grid_t& grid, const point& p, grid_t*& result) const
 	{
 		// TODO: might be redirected to Solver to save time, in many cases
@@ -385,6 +385,10 @@ class simulator_t : /*private _ca_calculator_t<Solver>,*/ public input_ca
 	calc_class ca_calc;
 	input_class ca_input;
 
+	using tmp_grid_t =
+	_grid_t<typename grid_t::traits_t, cell_traits<std::vector<typename grid_t::value_type>>>;
+	tmp_grid_t tmp_grid;
+
 	grid_t _grid[3];
 	grid_t *old_grid = _grid, *new_grid = _grid; // TODO: old grid const?
 	typename calc_class::n_t n_in, n_out; // TODO: const?
@@ -413,7 +417,7 @@ public:
 	}
 
 	simulator_t(const char* equation, const char* input_equation,
-		bool async = false) : // TODO: 2 ctots?
+		bool async = false) : // TODO: 2 ctors?
 		simulator_t(equation, input_equation, 0, async)
 	{
 	}
@@ -428,12 +432,16 @@ public:
 		bool async = false) :
 		ca_calc(stream),
 		ca_input(input_equation, 0),
-		_grid{ca_calc.border_width(), ca_calc.border_width()},
+		_grid{ca_calc.border_width(),
+			ca_calc.border_width(),
+			ca_calc.border_width()},
 		n_in(ca_calc.n_in()),
 		n_out(ca_calc.n_out()),
 		async(async)
 	{
 	}
+
+	simulator_t(const simulator_t& ) = delete;
 
 	virtual ~simulator_t() {}
 
@@ -485,6 +493,12 @@ public:
 		// incorrect if we finalize later? (what is 0 and 1?)
 		_grid[1] = _grid[0]; // fit borders
 		_grid[2] = _grid[0], _grid[2].reset(0);
+
+		std::vector<typename grid_t::value_type> fill(n_out.size());
+		tmp_grid = tmp_grid_t(_grid[0].human_dim(), ca_calc.border_width(), fill, fill);
+		for(const point& p : tmp_grid.points()) // TODO: common routine
+		for(const point& np : n_out)
+		 tmp_grid[p + np];
 
 		// make all cells active, but not those close to the border
 		// TODO: make this generic for arbitrary neighbourhoods
@@ -547,7 +561,7 @@ public:
 			}
 		};
 
-		new_grid->reset(std::numeric_limits<int>::min());
+//		new_grid->reset(std::numeric_limits<int>::min());
 
 		for(const point& ap : new_changed_cells)
 		for(const point& np : n_in)
@@ -593,11 +607,17 @@ public:
 	//	std::cout << "reserved:" << _grid[2] << std::endl;
 
 		for(const point& p : sim_rect)
-		 if(final_dec.find(p) == final_dec.end())
-		  (*new_grid)[p] = (*old_grid)[p];
-		 else
-		  std::cout << "ACTIVATED: " << p << std::endl;
-
+		if(final_dec.find(p) == final_dec.end())
+		 (*new_grid)[p] = (*old_grid)[p];
+		else
+		{
+			// TODO: duplicate of above call!
+		/*	ca_calc.next_state
+					(&((*old_grid)[p]),
+						p, _grid->internal_dim(),
+						&((*new_grid)[p]), _grid->internal_dim());*/
+			std::cout << "ACTIVATED: " << p << std::endl;
+		}
 	//	std::cout << "NOW:" <<  std::endl;
 	//	std::cout << *old_grid;
 	//	std::cout << *new_grid;

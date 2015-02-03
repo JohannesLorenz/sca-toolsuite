@@ -28,7 +28,7 @@ A: If you are using qt creator: Yes. Use src/sca-toolsuite.pro.
 
 Q: Is Qt necessary?
 A: No, the .pro file is only for people who use qt creator for coding. The
-   Makefile generation is done by autotools.
+   Makefile generation is done by cmake.
 
 2 Compiling
 :::::::::::
@@ -37,7 +37,7 @@ Q: My compiler swaps a lot while compiling
 A: This is mostly a problem of g++. You can try clang. Or, you should always
    compile with `make -j 1'.
 
-Q: I get a lot of warnings about unused localc typedefs or maybe uninitialized
+Q: I get a lot of warnings about unused local typedefs or maybe uninitialized
    variables. Why?
 A: If this happens, your boost libraries are too old for your compiler. You'll
    find a line in our CMakeLists ("WARN_EXC") which you can enable to ignore

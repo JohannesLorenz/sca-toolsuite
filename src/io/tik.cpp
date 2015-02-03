@@ -508,11 +508,11 @@ class MyProgram : public Program
 int main(int argc, char** argv)
 {
 	HelpStruct help;
-	help.syntax = "io/tik [<?>]";
+	help.syntax = "io/tik [tex-mode]";
 	help.description = "Converts sca formatted grid file to tikz";
 	help.input = "sca formatted grid file";
 	help.output = "minimal latex file";
-//	help.add_param("infile", "specifies a file to read a grid from");
+	help.add_param("tex-mode", "`include', `complete' (=standalone) or `header'");
 
 	MyProgram p;
 	return p.run(argc, argv, &help);

@@ -23,6 +23,7 @@
 
 #include <set>
 
+#include "print.h"
 #include "grid.h" // TODO: needed?
 #include "ca.h"
 

@@ -148,7 +148,7 @@ int main(int argc, char** argv)
 		"using split algorithm.";
 	help.input = "Dump file of split algorithm";
 	help.output = "Information, human readable";
-	help.add_param("mode", "type of information, use 'help' to get a list");
+//	help.add_param("mode", "type of information, use 'help' to get a list");
 
 	MyProgram p;
 	return p.run(argc, argv, &help);

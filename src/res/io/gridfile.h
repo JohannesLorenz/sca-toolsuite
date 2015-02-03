@@ -53,7 +53,7 @@ public:
 
 	static bool text_black(int32_t val) {
 		// this should be done using hsv, but nvm
-		int sum = val & 0xFF + ((val >> 8) & 0xFF) + ((val >> 16) & 0xFF);
+		int sum = (val & 0xFF) + ((val >> 8) & 0xFF) + ((val >> 16) & 0xFF);
 		return (sum >= 3*0xFF>>1); // high values mean white background
 	}
 };
