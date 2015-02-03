@@ -392,7 +392,8 @@ class simulator_t : /*private _ca_calculator_t<Solver>,*/ public input_ca
 	grid_t _grid[3];
 	grid_t *old_grid = _grid, *new_grid = _grid; // TODO: old grid const?
 	typename calc_class::n_t n_in, n_out; // TODO: const?
-	std::vector<point> new_changed_cells; // TODO: vector will shrink :/
+	std::vector<point> new_changed_cells;
+	std::vector<point> change_order; // initialize with some size?
 	//! temporary variable
 	std::set<point> cells_to_check, cells_not_token; // TODO: use pointers here, like in grid
 	int round = 0; //!< steps since last input
@@ -525,6 +526,9 @@ public:
 	void _run_once(const rect& sim_rect,
 		const Asynchronicity& async = synchronous())
 	{
+
+		std::cerr << "running once..." << std::endl;
+
 		// switch grids
 		old_grid = _grid + ((round+1)&1);
 		new_grid = _grid + ((round)&1);
@@ -535,10 +539,15 @@ public:
 		{
 			if(sim_rect.is_inside(p))
 			{
-				/*(*new_grid)[p] =*/ ca_calc.next_state
+				/*(*new_grid)[p] =*/
+#if 0
+				ca_calc.next_state
 					(&((*old_grid)[p]),
 						p, _grid->internal_dim(),
 						&((*new_grid)[p]), _grid->internal_dim());
+#else
+
+#endif
 
 				bool changes = false;
 				for(auto itr = n_out.cbegin(); !changes && (itr != n_out.cend()); ++itr)
@@ -566,7 +575,7 @@ public:
 		for(const point& ap : new_changed_cells)
 		for(const point& np : n_in)
 		 add_cell_if_variable_and_async(ap + np);
-		new_changed_cells.clear();
+		new_changed_cells.resize(0); // will not affect capacity!
 
 		for(const point& p : cells_not_token)
 		 add_cell_if_variable_and_async(p);
@@ -574,7 +583,6 @@ public:
 
 	//	std::cout << "NG:" << std::endl << (*new_grid) << std::endl;
 
-		std::vector<point> change_order;
 		std::copy(cells_to_check.begin(), cells_to_check.end(), std::back_inserter(change_order));
 
 		std::random_device rd;
@@ -603,6 +611,7 @@ public:
 				cp = point(-1, -1);
 			}
 		}
+		change_order.resize(0);
 
 	//	std::cout << "reserved:" << _grid[2] << std::endl;
 

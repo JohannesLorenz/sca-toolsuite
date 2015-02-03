@@ -203,6 +203,8 @@ class _n_t
 	using rect = _rect<Traits>;
 	using dimension = _dimension<Traits>;
 	using u_coord_t = typename Traits::u_coord_t;
+	using bounding_box = _bounding_box<Traits>;
+
 protected:
 #if 0
 	_n_t() {} // TODO: bad coding style
@@ -216,17 +218,18 @@ protected:
 	Container _n;
 
 	//! Not necessary, but saves much computation time.
-	rect rc;
+	bounding_box _bb;
 
-public:
-	_bounding_box<Traits> get_bb() const
+	rect rc() const { return _bb.rect(); }
+
+	bounding_box init_bb() const
 	{
-		_bounding_box<Traits> _bb;
+		bounding_box new_bb;
 		for(const point& p : _n)
-		 _bb.add_point( p );
-		return _bb;
+		 new_bb.add_point( p );
+		return new_bb;
 	}
-
+public:
 	std::size_t pos(const point& p) const
 	{
 		return get_pos(_n, p);
@@ -236,18 +239,18 @@ public:
 	{
 /*		_bounding_box<Traits> _bb = get_bb();
 		return point(-_bb.ul().x, -_bb.ul().y);*/
-		return -rc.ul();
+		return -rc().ul();
 	}
 
-	rect get_rect() const { return rc; }
-	dimension dim() const { return dimension(rc.dx(), rc.dy()); }
+	rect get_rect() const { return rc(); }
+	dimension dim() const { return dimension(rc().dx(), rc().dy()); }
 	u_coord_t max_w() const
 	{
 		return std::max(
-			std::max((u_coord_t)-rc.ul().x,
-				(u_coord_t)-rc.ul().y),
-			std::max((u_coord_t)rc.lr().x,
-				(u_coord_t)rc.lr().y)
+			std::max((u_coord_t)-rc().ul().x,
+				(u_coord_t)-rc().ul().y),
+			std::max((u_coord_t)rc().lr().x,
+				(u_coord_t)rc().lr().y)
 		);
 	}
 
@@ -479,11 +482,11 @@ class n_t_2 : public _n_t<T>
 			p -= center_cell;
 		}
 
-		rc = get_bb().rect(); //TODO: no bb ever necessary
+		_bb = init_bb(); //TODO: no bb ever necessary
 	}
 public:
 	_n_t(std::istream& stream) { stream >> *this; } // TODO: const ctor
-	_n_t() : rc(point::zero(), point::zero()) {}
+	_n_t() = default;
 
 	// TODO: make constexpr version, too
 	//! assumes that no borders exist
@@ -499,11 +502,11 @@ public:
 			//bb.add_point(neighbours.back());
 		}
 
-		rc = get_bb().rect();
+		_bb = init_bb();
 	}
 
 	// TODO: make grid const!
-	_n_t(grid_t& grid, point _center_cell) : rc(point::zero(), point::zero()) // TODO
+	_n_t(grid_t& grid, point _center_cell)
 	{
 		std::size_t reserve = 0;
 		for(const grid_t::value_type& c : grid)
@@ -514,10 +517,10 @@ public:
 		if(grid[p])
 		 _n.push_back(p - _center_cell);
 
-		rc = get_bb().rect();
+		_bb = init_bb();
 	}
 
-	_n_t(const Container&& cont) : _n(cont), rc(get_bb().rect()) {}
+	_n_t(const Container&& cont) : _n(cont), _bb(init_bb()) {}
 
 	const Container& neighbours() const noexcept { return _n; }
 
