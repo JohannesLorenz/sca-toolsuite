@@ -29,25 +29,28 @@
 
 namespace sca { namespace ca {
 
-int myPow(int x, int p)
+// TODO: stackoverflow
+int my_pow(int x, int p)
 {
 	if (p == 0) return 1;
 	if (p == 1) return x;
 
-	int tmp = myPow(x, p/2);
+	int tmp = my_pow(x, p/2);
 	if (p%2 == 0) return tmp * tmp;
 	else return x * tmp * tmp;
 }
 
+//! just for debugging. reentrancy not dangered
 point max_point = point (0, 0);
 
+//! fills in possible grids for preimages from top-left to bottom right
 template<class Solver, class Traits, class CellTraits>
 void _dump_preimages(const _calculator_t<Solver, Traits, CellTraits>& ca,
-	const grid_t& input,
+	const _grid_t<Traits, CellTraits>& input,
 	std::size_t num_states,
-	grid_t& constraints,
+	_grid_t<Traits, CellTraits>& constraints,
 	const std::ostream& ofs = std::cout,
-	point this_point = point(1, 1))
+	_point<Traits> this_point = _point<Traits>(1, 1))
 {
 
 	using point = _point<Traits>;
@@ -57,16 +60,13 @@ void _dump_preimages(const _calculator_t<Solver, Traits, CellTraits>& ca,
 
 //	std::cerr << this_point << std::endl;
 
-	if(this_point.y == input.dy() - 1)
+	if(this_point.y == static_cast<typename Traits::coord_t>(input.dy() - 1))
 	{
 		// recursion is finished
 		std::cout << constraints;
 	}
 	else
 	{
-		std::cerr << "CONSTRAINTS now: " << constraints << std::endl;
-
-
 		if(this_point > max_point)
 		{
 			max_point = this_point;
@@ -85,14 +85,14 @@ void _dump_preimages(const _calculator_t<Solver, Traits, CellTraits>& ca,
 		}
 
 		point next_point = this_point + point(1, 0);
-		if(next_point.x == input.dx() - 1)
+		if(next_point.x == static_cast<typename Traits::coord_t>(input.dx() - 1))
 		{
 			next_point.x = 1;
 			++next_point.y;
 		}
 
 		std::size_t remains = variables.size();
-		std::size_t mask_max = myPow(num_states, remains);
+		std::size_t mask_max = my_pow(num_states, remains);
 
 		for(std::size_t mask = 0; mask < mask_max; ++mask)
 		{
@@ -106,8 +106,8 @@ void _dump_preimages(const _calculator_t<Solver, Traits, CellTraits>& ca,
 
 			bitgrid_t b_res(2 /*TODO!*/, convert<bitgrid_traits>(src_grid.human_dim()), 0, 0, 0);
 			ca.next_state(src_grid, c, b_res);
-			std::size_t res = b_res[_point<bitgrid_traits>(0, 0)];
-			if(res == input[this_point])
+			uint64_t res = b_res[_point<bitgrid_traits>(0, 0)];
+			if(static_cast<typename Traits::coord_t>(res) == input[this_point])
 			{
 				std::cerr << " percentage: " << this_point << ", " << mask << " of " << mask_max << std::endl;
 				_dump_preimages(ca, input, num_states, constraints, ofs, next_point);
@@ -122,16 +122,18 @@ void _dump_preimages(const _calculator_t<Solver, Traits, CellTraits>& ca,
 
 template<class Solver, class Traits, class CellTraits>
 void dump_preimages(const _calculator_t<Solver, Traits, CellTraits>& ca,
-	const grid_t input,
+	const _grid_t<Traits, CellTraits> input,
 	std::size_t num_states,
 	const std::ostream& ofs = std::cout,
-	point this_point = point(1, 1))
+	_point<Traits> this_point = _point<Traits>(1, 1))
 {
-	// draw border
-	grid_t constraints(input.human_dim(), 0, -1, 0);
-	for(const point& p : constraints.points())
-	if(p.x == 0 || p.x == constraints.dx() - 1
-		|| p.y == 0 || p.y == constraints.dy() - 1)
+	_grid_t<Traits, CellTraits> constraints(input.human_dim(), 0, -1, 0);
+	// draw border - is known not to have changed
+	for(const _point<Traits>& p : constraints.points())
+	if(p.x == 0
+		|| p.x == static_cast<typename Traits::coord_t>(constraints.dx() - 1)
+		|| p.y == 0
+		|| p.y == static_cast<typename Traits::coord_t>(constraints.dy() - 1))
 	 constraints[p] = input[p];
 
 	//std::cerr << constraints << std::endl;
