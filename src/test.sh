@@ -75,8 +75,8 @@ call_test "Testing algo/relax l" 1 "core/create 9 9 3 | math/add `./math/coords 
 
 call_test "Testing math/calc (1)" 1 "[ `echo 0 | math/calc '!0&&1==1&&1!=0&&1>=1&&1<=1&&!(1<1)&&!(1>1)&&1+1==+2&&1-4==-3&&8%3==2&&2*2==4&&9/3==3&&(0||1)==1&&(0||0)==0&&min(3,2)==2&&min(2,3)==2&&max(2,3)==3&&max(3,2)==3'` == '1' ]"
 call_test "Testing math/calc (2)" 1 "core/create 2 2 0 | math/add 0 1 2 | io/field_to_seq | math/calc 'x+1' | io/seq_to_field 2 2 | math/add 0 | core/all_equals 1"
-call_test "Testing math/calc (3)" 1 "[ `echo 0 | math/calc 'x?42:2014'` == '2014' ]"
-call_test "Testing math/calc (4)" 1 "[ `echo 1 | math/calc 'x?42:2014'` == '42' ]"
+call_test "Testing math/calc (3)" 1 "[ `echo 0 | math/calc 'x?42:2015'` == '2015' ]"
+call_test "Testing math/calc (4)" 1 "[ `echo 1 | math/calc 'x?42:2015'` == '42' ]"
 
 call_test "Testing math/comb add" 1 "core/create 2 2 1 | math/comb add \"core/create 2 2 2\" | core/all_equals 3"
 call_test "Testing math/comb sub" 1 "core/create 2 2 1 | math/comb sub \"core/create 2 2 2\" | core/all_equals -1"

@@ -1,6 +1,6 @@
 /*************************************************************************/
 /* sca toolsuite - a toolsuite to simulate cellular automata.            */
-/* Copyright (C) 2011-2014                                               */
+/* Copyright (C) 2011-2015                                               */
 /* Johannes Lorenz                                                       */
 /* https://github.com/JohannesLorenz/sca-toolsuite                       */
 /*                                                                       */
@@ -107,7 +107,7 @@ void MainWindow::slot_help_about()
 {
 	QMessageBox::about ( NULL, "About",
 			     "<h1>Qt GUI for sca-toolsuite</h1>"
-			     "<i>(c) 2012-2014</i><br/>"
+			     "<i>(c) 2012-2015</i><br/>"
 			     "by Johannes Lorenz<br/><br/>"
 			     "<a href=\"https://github.com/JohannesLorenz/sca-toolsuite\">https://github.com/JohannesLorenz/sca-toolsuite</a>");
 
@@ -120,14 +120,14 @@ void MainWindow::slot_help_about_qt() {
 void MainWindow::state_updated(StateMachine::STATE new_state)
 {
 	switch (new_state)
-		{
+	{
 		case StateMachine::STATE_INSTABLE:
 			btn_step.setEnabled(true);
 			break;
 		default:
 			btn_step.setDisabled(true);
 			break;
-		}
+	}
 
 	menu_bar.state_updated(new_state);
 
@@ -144,7 +144,11 @@ void MainWindow::change_ca_type()
 	CaSelector ca_sel(this);
 	ca_sel.setModal(true);
 	if(ca_sel.exec() == QDialog::Accepted)
-	 draw_area.reset_ca(ca_sel.instantiate_ca());
+	{
+		draw_area.reset_ca(ca_sel.instantiate_ca());
+		if(ca.can_run)
+
+	}
 }
 
 void MainWindow::slot_fullscreen() {
