@@ -50,7 +50,7 @@ struct _point
 	// TODO: noexcept wrong?
 	constexpr _point(coord_t _x, coord_t _y) noexcept(coord_t(coord_t())) :
 		x(_x), y(_y) {}
-	_point() {}
+	constexpr _point() {}
 	constexpr _point(const _point& other) : x(other.x), y(other.y) {}
 	void set(int _x, int _y) { x = _x; y = _y; }
 	bool operator<(const _point& rhs) const {
