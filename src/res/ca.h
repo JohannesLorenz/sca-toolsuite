@@ -386,7 +386,7 @@ class simulator_t : /*private _ca_calculator_t<Solver>,*/ public input_ca
 	input_class ca_input;
 
 	using tmp_grid_t =
-	_grid_t<typename grid_t::traits_t, cell_traits<std::vector<typename grid_t::value_type>>>;
+	_grid_t<typename grid_t::traits_t, cell_traits<grid_t>>;
 	tmp_grid_t tmp_grid;
 
 	grid_t _grid[3];
@@ -495,7 +495,7 @@ public:
 		_grid[1] = _grid[0]; // fit borders
 		_grid[2] = _grid[0], _grid[2].reset(0);
 
-		std::vector<typename grid_t::value_type> fill(n_out.size());
+		grid_t fill(n_out.dim(), 0);
 		tmp_grid = tmp_grid_t(_grid[0].human_dim(), ca_calc.border_width(), fill, fill);
 		for(const point& p : tmp_grid.points()) // TODO: common routine
 		for(const point& np : n_out)
@@ -526,9 +526,6 @@ public:
 	void _run_once(const rect& sim_rect,
 		const Asynchronicity& async = synchronous())
 	{
-
-		std::cerr << "running once..." << std::endl;
-
 		// switch grids
 		old_grid = _grid + ((round+1)&1);
 		new_grid = _grid + ((round)&1);
@@ -540,13 +537,18 @@ public:
 			if(sim_rect.is_inside(p))
 			{
 				/*(*new_grid)[p] =*/
+
+				grid_t& cur_res_grid = tmp_grid[p];
 #if 0
 				ca_calc.next_state
 					(&((*old_grid)[p]),
 						p, _grid->internal_dim(),
 						&((*new_grid)[p]), _grid->internal_dim());
 #else
-
+				ca_calc.next_state
+					(&((*old_grid)[p]),
+						p, _grid->internal_dim(),
+						&cur_res_grid[n_out.center()], n_out.dim());
 #endif
 
 				bool changes = false;
@@ -555,16 +557,17 @@ public:
 					point ip = *itr + p;
 
 					// note: async(2) means that active cells can be activated or not
-					changes = changes || ( sim_rect.is_inside(ip) &&  ((*new_grid)[ip] != (*old_grid)[ip]) && async(2));
-					if(changes)
+					changes = changes || ( sim_rect.is_inside(ip) &&
+						(cur_res_grid[*itr] != (*old_grid)[ip]) && async(2));
+					/*if(changes)
 					{
-						std::cout << "neq:" << ip << std::endl;
-						std::cout << (*new_grid)[ip] << " <-> " << (*old_grid)[ip] << std::endl;
-					}
+						std::cerr << "neq:" << ip << std::endl;
+						std::cerr << cur_res_grid[*itr] << " <-> " << (*old_grid)[ip] << std::endl;
+					}*/
 				}
 				if(changes)
 				{
-					std::cout << "FOUND ACTIVE CELL: " << p << std::endl;
+					//std::cerr << "FOUND ACTIVE CELL: " << p << std::endl;
 					cells_to_check.insert(p);
 				}
 			}
@@ -581,7 +584,7 @@ public:
 		 add_cell_if_variable_and_async(p);
 		cells_not_token.clear();
 
-	//	std::cout << "NG:" << std::endl << (*new_grid) << std::endl;
+	//	std::cerr << "NG:" << std::endl << (*new_grid) << std::endl;
 
 		std::copy(cells_to_check.begin(), cells_to_check.end(), std::back_inserter(change_order));
 
@@ -598,7 +601,7 @@ public:
 		for(point& cp : change_order)
 		{
 			const auto point_avail = [&](const point& p){
-			//	std::cout << p << ": " << _grid[2][p] << std::endl;
+			//	std::cerr << p << ": " << _grid[2][p] << std::endl;
 				return !_grid[2][p]; };
 			if(n_out.for_each_bool(cp, point_avail)) {
 				const auto reserve_point = [&](const point& p){ _grid[2][p] = 1; };
@@ -606,30 +609,36 @@ public:
 				final_dec.insert(cp);
 			}
 			else {
-				std::cout << "rejected: "<< cp <<std::endl;
+				//std::cerr << "rejected: "<< cp <<std::endl;
 				cells_not_token.insert(cp);
 				cp = point(-1, -1);
 			}
 		}
 		change_order.resize(0);
 
-	//	std::cout << "reserved:" << _grid[2] << std::endl;
+	//	std::cerr << "reserved:" << _grid[2] << std::endl;
 
-		for(const point& p : sim_rect)
+		/*for(const point& p : sim_rect)
 		if(final_dec.find(p) == final_dec.end())
 		 (*new_grid)[p] = (*old_grid)[p];
-		else
+		else*/
+		for(const point& p : final_dec)
 		{
 			// TODO: duplicate of above call!
 		/*	ca_calc.next_state
 					(&((*old_grid)[p]),
 						p, _grid->internal_dim(),
 						&((*new_grid)[p]), _grid->internal_dim());*/
-			std::cout << "ACTIVATED: " << p << std::endl;
+			n_out.for_each(n_out.center(), [&](const point& np){
+				(*new_grid)[p + np] = tmp_grid[p][np];
+			});
 		}
-	//	std::cout << "NOW:" <<  std::endl;
-	//	std::cout << *old_grid;
-	//	std::cout << *new_grid;
+
+		std::move(final_dec.begin(), final_dec.end(), std::back_inserter(new_changed_cells));
+
+	//	std::cerr << "NOW:" <<  std::endl;
+	//	std::cerr << *old_grid;
+	//	std::cerr << *new_grid;
 
 		++round;
 	}
