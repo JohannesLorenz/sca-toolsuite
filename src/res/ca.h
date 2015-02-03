@@ -385,9 +385,9 @@ class simulator_t : /*private _ca_calculator_t<Solver>,*/ public input_ca
 	calc_class ca_calc;
 	input_class ca_input;
 
-	//using tmp_grid_t =
-	//_grid_t<typename grid_t::traits_t, cell_traits<std::vector<typename grid_t::value_type>>>;
-	//tmp_grid_t tmp_grid;
+	using tmp_grid_t =
+	_grid_t<typename grid_t::traits_t, cell_traits<std::vector<typename grid_t::value_type>>>;
+	tmp_grid_t tmp_grid;
 
 	grid_t _grid[3];
 	grid_t *old_grid = _grid, *new_grid = _grid; // TODO: old grid const?
@@ -494,10 +494,11 @@ public:
 		_grid[1] = _grid[0]; // fit borders
 		_grid[2] = _grid[0], _grid[2].reset(0);
 
-	/*	tmp_grid = tmp_grid_t(_grid[0].human_dim(), ca_calc.border_width());
+		std::vector<typename grid_t::value_type> fill(n_out.size());
+		tmp_grid = tmp_grid_t(_grid[0].human_dim(), ca_calc.border_width(), fill, fill);
 		for(const point& p : tmp_grid.points()) // TODO: common routine
 		for(const point& np : n_out)
-		 tmp_grid[p + np];*/
+		 tmp_grid[p + np];
 
 		// make all cells active, but not those close to the border
 		// TODO: make this generic for arbitrary neighbourhoods
