@@ -79,10 +79,8 @@ public:
 		grid_t dead(src.human_dim(), calc.border_width(),
 			cell_default, cell_dead_state);
 
-		const u_coord_t bw = calc.border_width();
-		//const point max = point(src.human_dim().dx() - bw, src.human_dim().dy() - bw);
 		const point max = point(src.human_dim().dx(), src.human_dim().dy());
-		rect inner_rect(/*point(bw, bw), max*/point::zero(), max);
+		rect inner_rect(point::zero(), max);
 
 		std::vector<point> killed[2];
 
