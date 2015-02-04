@@ -85,8 +85,8 @@ call_test "Testing math/comb max" 1 "core/create 2 2 1 | math/comb max \"core/cr
 
 call_test "Testing algo/id" 1 "core/create 64 64 3 | math/comb add \"algo/id 64 64\" | algo/fix s | core/all_equals 3"
 
-call_test "Testing algo/S" 1 "core/create 9 9 3 | math/add `./math/coords 9 4 4` | algo/S | math/equation \$EQ_3_P_1 | core/all_equals 1"
-call_test "Testing algo/L" 1 "core/create 9 9 3 | math/add `./math/coords 9 4 4` | algo/L 9 `./math/coords 9 4 4` | io/seq_to_field 9 9  | math/equation 'v-min(min(x+1,9-x),min(y+1,9-y))' | core/all_equals 0"
+#call_test "Testing algo/S" 1 "core/create 9 9 3 | math/add `./math/coords 9 4 4` | algo/S | math/equation \$EQ_3_P_1 | core/all_equals 1"
+#call_test "Testing algo/L" 1 "core/create 9 9 3 | math/add `./math/coords 9 4 4` | algo/L 9 `./math/coords 9 4 4` | io/seq_to_field 9 9  | math/equation 'v-min(min(x+1,9-x),min(y+1,9-y))' | core/all_equals 0"
 
 #call_test "Testing algo/s" 1 "core/create 9 9 3 | math/add `./math/coords 9 4 4` | algo/s | math/equation \$EQ_3_P_1 | core/all_equals 1"
 #call_test "Testing algo/l" 1 "core/create 9 9 3 | math/add `./math/coords 9 4 4` | algo/l 9 `./math/coords 9 4 4` | io/seq_to_field 9 9  | math/equation 'v-min(min(x+1,9-x),min(y+1,9-y))' | core/all_equals 0"

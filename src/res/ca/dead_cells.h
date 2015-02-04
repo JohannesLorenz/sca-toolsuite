@@ -41,7 +41,7 @@ class dead_cell_scan
 
 	const cell_t num_states;
 
-	const n_t &n_in, &n_out, n_in_inv, n_out_inv;
+	const n_t &n_in, &n_out;
 
 public:
 
