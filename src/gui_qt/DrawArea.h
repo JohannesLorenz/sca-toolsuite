@@ -116,16 +116,14 @@ private slots:
 
 public:
 	explicit DrawArea(StateMachine& _state_machine,
-		const char* ca_eq,
-		const char* input_eq,
+		sca::ca::input_ca *ca,
 		QWidget *parent = 0);
 	~DrawArea();
 
 	void set_pixel_size(int pixel_size);
 	void fill_grid(std::istream& inf = std::cin);
-	void reset_ca(sca::ca::input_ca* new_ca);
+	void on_reset_ca(sca::ca::input_ca* new_ca);
 
-signals:
 public slots:
 	void set_timeout_interval(int msecs);
 };

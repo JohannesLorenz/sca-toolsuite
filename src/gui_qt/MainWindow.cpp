@@ -20,8 +20,11 @@
 
 #include <QVector>
 #include <QStatusBar>
+
 #include "MainWindow.h"
 #include "CaSelector.h"
+#include "ca.h"
+#include "ca_eqs.h"
 
 void MainWindow::setup_ui()
 {
@@ -85,13 +88,17 @@ void MainWindow::retranslate_ui()
 	btn_step.setText("Step");
 }
 
+using eq_sim_t = sca::ca::simulator_t<sca::ca::eqsolver_t,
+	def_coord_traits, def_cell_traits>;
+
 MainWindow::MainWindow(const char *ca_eq, const char *input_eq, QWidget *parent) :
 	QMainWindow(parent),
+	ca(new eq_sim_t(ca_eq, input_eq)),
 	menu_bar(this),
 //	tool_bar(this),
 	central_widget(this),
 	hbox_main(&central_widget),
-	draw_area(state_machine, ca_eq, input_eq),
+	draw_area(state_machine, ca),
 	pixel_size_chooser("UI size: "),
 	time_interval_chooser("Step time: "),
 	/*ca_type_chooser("CA input type: "),
@@ -101,6 +108,8 @@ MainWindow::MainWindow(const char *ca_eq, const char *input_eq, QWidget *parent)
 	setup_ui();
 	retranslate_ui();
 	state_machine.set(StateMachine::STATE_WELCOME, true);
+	state_machine.set(ca->can_run() ? StateMachine::STATE_INSTABLE
+				: StateMachine::STATE_STABLE);
 }
 
 void MainWindow::slot_help_about()
@@ -114,7 +123,7 @@ void MainWindow::slot_help_about()
 }
 
 void MainWindow::slot_help_about_qt() {
-	QMessageBox::aboutQt ( NULL, tr("About - Qt") );
+	QMessageBox::aboutQt(nullptr, tr("About - Qt"));
 }
 
 void MainWindow::state_updated(StateMachine::STATE new_state)
@@ -145,9 +154,15 @@ void MainWindow::change_ca_type()
 	ca_sel.setModal(true);
 	if(ca_sel.exec() == QDialog::Accepted)
 	{
-		draw_area.reset_ca(ca_sel.instantiate_ca());
-		if(ca.can_run)
+		grid_t grid_copy = std::move(ca->grid());
+		delete ca;
+		ca = ca_sel.instantiate_ca();
+		ca->grid() = std::move(grid_copy);
+		ca->finalize();
 
+		draw_area.on_reset_ca(ca);
+		state_machine.set(ca->can_run() ? StateMachine::STATE_INSTABLE
+					: StateMachine::STATE_STABLE);
 	}
 }
 

@@ -40,11 +40,17 @@
 #include "DrawArea.h"
 #include "MenuBar.h"
 
+namespace sca { namespace ca {
+	class input_ca;
+} }
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
 	StateMachine state_machine;
+
+	sca::ca::input_ca* ca = nullptr;
 
 	MenuBar menu_bar;
 	//QToolBar tool_bar;

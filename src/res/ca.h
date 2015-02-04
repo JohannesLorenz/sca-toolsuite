@@ -85,7 +85,10 @@ public:
 	virtual bool has_active_cells() const = 0;
 
 	//! returns true iff not all cells are inactive
-	virtual bool is_stable() const = 0;
+	virtual bool can_run() const = 0;
+
+	//! returns true iff not all cells are inactive
+	//virtual bool is_stable() const = 0;
 
 	//! returns the current grid
 	virtual grid_t& grid() = 0;
@@ -684,7 +687,7 @@ public:
 
 	stable_t gets_stable() const { return stable_t::unknown; }
 
-	bool is_stable() const { return false; } // TODO!!!!
+	//bool is_stable() const { return false; } // TODO!!!!
 
 	bool stabilize()
 	{

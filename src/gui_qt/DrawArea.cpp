@@ -22,23 +22,20 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPaintEvent>
+
 //#include "asm_basic.h"
 #include "DrawArea.h"
 #include "ca.h"
 #include "ca_eqs.h"
 
-using eq_sim_t = sca::ca::simulator_t<sca::ca::eqsolver_t,
-	def_coord_traits, def_cell_traits>;
-
-DrawArea::DrawArea(StateMachine& _state_machine, const char *ca_eq,
-	const char *input_eq, QWidget *parent) :
+DrawArea::DrawArea(StateMachine& _state_machine, sca::ca::input_ca* ca, QWidget *parent) :
 	QWidget(parent),
 	state_machine(_state_machine),
 	pixel_factor(1),
 	TIMER_INTERVAL(250),
 	min_color(0,255,0),
 	max_color(255,0,0),
-	ca(new eq_sim_t(ca_eq, input_eq)),
+	ca(ca),
 	grid_layout(this)
 {
 	connect(&next_fire_timer, SIGNAL(timeout()),
@@ -173,13 +170,9 @@ void DrawArea::fill_grid(std::istream &inf)
 	}
 }
 
-void DrawArea::reset_ca(sca::ca::input_ca *new_ca)
+void DrawArea::on_reset_ca(sca::ca::input_ca *new_ca)
 {
-	grid_t grid_copy = std::move(ca->grid());
-	delete ca;
 	ca = new_ca;
-	new_ca->grid() = std::move(grid_copy);
-	new_ca->finalize();
 
 	update_pixmap(); // TODO: useless?
 	state_machine.trigger_throw();
