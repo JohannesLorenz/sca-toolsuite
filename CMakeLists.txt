@@ -196,7 +196,7 @@ endif()
 MESSAGE("READING SUB-DIRECTORIES...")
 add_subdirectory(src)
 add_subdirectory(doc)
-find_package(Doxygen) # TODO: wrong place
+#find_package(Doxygen) # TODO: wrong place
 
 #target_link_libraries(calc ...)
 
