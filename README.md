@@ -4,7 +4,7 @@ Welcome! Thank you for considering the README file.
 **Contents**
 
   1. What is the sca-toolsuite?
-  2. Why using the sca-toolsuite
+  2. Why using the sca-toolsuite?
   3. Thanks to
   4. Links
   5. Contact
@@ -56,19 +56,19 @@ Reasons for using it include the following.
 
 # 3 Thanks to
 In alphabetical order, the author thanks:
-  * All people who give support for bost::spirit [6].
+  * All people who give support for bost::spirit [3].
   * Oliver Schneider. (TODO: Website?)
   * Philipp Lorenz.
-  * Sebastian Frehmel, his diploma thesis at [4].
-  * Dr Thomas Worsch [2] @ The Karlsruhe Institute of Technology (KIT).
+  * Sebastian Frehmel, his diploma thesis at [2].
+  * Dr Thomas Worsch [1] @ The Karlsruhe Institute of Technology (KIT).
 
-# 3 Links
+# 4 Links
 Links from this document:
   2. http://liinwww.ira.uka.de/~thw/
   4. http://www.sebastianfrehmel.de/studium/diplomarbeit/
   6. http://boost-spirit.com/home/feedback-and-support/
 
-# 4 Contact
+# 5 Contact
 Feel free to give feedback. My e-mail address is shown if you execute this in
 a shell:
 ```sh
