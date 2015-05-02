@@ -1,17 +1,14 @@
-0 Introduction
-::::::::::::::
-
+# Introduction
 This file contains questions often asked by others.
 Or questions I think others might ask.
 
-CONTENTS
+**Contents**
 
-1 General
-2 Compiling
-3 Sandpiles
+  1. General
+  2. Compiling
+  3. Sandpiles
 
-1 General
-:::::::::
+# 1 General
 
 Q: Are there any other COPYING restrictions than GPL3?
 A: None.
@@ -20,8 +17,8 @@ Q: I miss the ternary operator in the equation solver...
 A: We have added it now. If you still miss it, please update your local
    version of the toolsuite.
 
-Q: I need --help as a filename...
-A: Try to pass ./--help to the program.
+Q: I need `--help` as a filename...
+A: Try to pass `./--help` to the program.
 
 Q: Is there a project file for my code editor?
 A: If you are using qt creator: Yes. Use src/sca-toolsuite.pro.
@@ -30,12 +27,11 @@ Q: Is Qt necessary?
 A: No, the .pro file is only for people who use qt creator for coding. The
    Makefile generation is done by cmake.
 
-2 Compiling
-:::::::::::
+# 2 Compiling
 
 Q: My compiler swaps a lot while compiling
 A: This is mostly a problem of g++. You can try clang. Or, you should always
-   compile with `make -j 1'.
+   compile with `make -j 1`.
 
 Q: I get a lot of warnings about unused local typedefs or maybe uninitialized
    variables. Why?
@@ -44,12 +40,11 @@ A: If this happens, your boost libraries are too old for your compiler. You'll
    the errors.
 
 Q: libres is compiled once for multiple binaries. What if I need different
-   versions of it for different executables in `./src'?
+   versions of it for different executables in `./src`?
 A: We think that this happens seldom. If it does, you could either make two
    different builds of sca-toolsuite (suggested), or hack into the CMakeLists.
 
-3 Sandpiles
-:::::::::::
+# 3 Sandpiles
 
 Q: How fast is the sandpile algorithm?
 A: There are different experiments:

@@ -126,11 +126,12 @@ SOURCES += algo/relax.cpp \
 	search/stats.cpp \
     ca/active_cells.cpp \
     ca/preimage.cpp
-OTHER_FILES += ../DOCUMENTATION \
-	../INSTALL.txt \
-	../README.txt \
-	../FAQ.txt \
-	../BENCHMARKS.txt \
+OTHER_FILES += ../DOCUMENTATION.md \
+	../INSTALL.md \
+	../README.md \
+	../FAQ.md \
+	../BENCHMARKS.md \
+	../EXAMPLES.md \
 	../CMakeLists.txt \
 	test.sh \
 	CMakeLists.txt \

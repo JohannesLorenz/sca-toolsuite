@@ -1,14 +1,12 @@
-0 Introduction
-::::::::::::::
+# Introduction
 
 This file contains benchmarks
 
-CONTENTS
+** Contents **
 
-1 Different ASM algorithms
+  1. Different ASM algorithms
 
-1 Different ASM algorithms
-::::::::::::::::::::::::::
+# 1 Different ASM algorithms
 
 For all algorithms, we used "Intel(R) Core(TM) i5-3570 CPU @ 3.40GHz" which
 has 4 physical (one logical each) cores and 6 MB cache each. However, all
