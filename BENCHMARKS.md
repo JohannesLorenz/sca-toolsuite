@@ -2,7 +2,7 @@
 
 This file contains benchmarks
 
-** Contents **
+**Contents**
 
   1. Different ASM algorithms
 

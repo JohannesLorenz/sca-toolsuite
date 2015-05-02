@@ -9,7 +9,7 @@ Or questions I think others might ask.
   3. Sandpiles
 
 # 1 General
-
+```
 Q: Are there any other COPYING restrictions than GPL3?
 A: None.
 
@@ -26,9 +26,10 @@ A: If you are using qt creator: Yes. Use src/sca-toolsuite.pro.
 Q: Is Qt necessary?
 A: No, the .pro file is only for people who use qt creator for coding. The
    Makefile generation is done by cmake.
+```
 
 # 2 Compiling
-
+```
 Q: My compiler swaps a lot while compiling
 A: This is mostly a problem of g++. You can try clang. Or, you should always
    compile with `make -j 1`.
@@ -36,19 +37,20 @@ A: This is mostly a problem of g++. You can try clang. Or, you should always
 Q: I get a lot of warnings about unused local typedefs or maybe uninitialized
    variables. Why?
 A: If this happens, your boost libraries are too old for your compiler. You'll
-   find a line in our CMakeLists ("WARN_EXC") which you can enable to ignore
+   find a line in our CMakeLists (`WARN_EXC`) which you can enable to ignore
    the errors.
 
 Q: libres is compiled once for multiple binaries. What if I need different
    versions of it for different executables in `./src`?
 A: We think that this happens seldom. If it does, you could either make two
    different builds of sca-toolsuite (suggested), or hack into the CMakeLists.
+```
 
 # 3 Sandpiles
-
+```
 Q: How fast is the sandpile algorithm?
 A: There are different experiments:
-   
+
      * stabilize: stabilize one given (positive) configuration.
      * random throw: throw one grain at random position, then stabilize.
        Repeat it often enough. Runtime counted is started when a recurrent
@@ -77,4 +79,4 @@ Q: Can our sequential sandpile algorithm be improved otherwise?
 A: We assume so. However, the current algorithm is already very short. If
    there are any improvements, then probably not the algorithm itself, but
    maybe changes in memory alignment or completely different algorithms.
-
+```

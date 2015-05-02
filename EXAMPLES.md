@@ -2,7 +2,7 @@
 This file lists useful examples for some tools. For more examples, please
 consider the file `src/test.sh`.
 
-First, some basic grid operations.
+First, some **basic grid operations**.
 
 ```sh
 # use the coords script
@@ -15,8 +15,9 @@ core/create 20 20 0 | math/equation '(x-8)*(x-8)+(y-8)*(y-8)>16'
 
 # moving a rectangle
 core/create 10 10 | math/equation 'x<=4&&y<=4' | io/field_to_seq | math/calc "x+1+10" | io/seq_to_field 10 10
+```
 
-More topics using cellular automata are following.
+**More topics** using cellular automata are following.
 
 ```sh
 # export to latex/TIKZ
@@ -30,8 +31,8 @@ core/create 9 6 0 | math/add 10 11 19 20 32 33 34 | ca/ca "`cat ../data/ca/game_
 img/transform "v&(255)|(255<<24)" < in.png > out.png
 ```
 
-The following operations are from the `algo` directory. They are for sandpile
-CA only.
+The following operations are from the `algo` directory. They are for **sandpile
+CA** only.
 
 ```sh
 # random throw

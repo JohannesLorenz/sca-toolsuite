@@ -2,25 +2,25 @@
 
 This file should help you getting the usage of all programs.
 
-CONTENTS
+**Contents**
 
-1 Commandline Help
-2 Coordinates
-3 Input and Output Types
-4 Doxygen
+  1. Commandline Help
+  2. Coordinates
+  3. Input and Output Types
+  4. Doxygen
 
 # 1 General Help
 
 For every non-shell program, you can use `--help` to get a full help.
 (Note: If you need a file name for argv[1] which is `--help`, write
-'./--help`). For shell programs, look into the files and find out which
+`./--help`). For shell programs, look into the files and find out which
 programs they call.
 
 For syntax in the help descriptions, the following rules are used:
 
-  * l|s means that either l or s is allowed (not both).
-  * [argument] means that *argument* can be omitted.
-  * <argument-description> means that you should not see *argument-description* as a
+  * `l|s` means that either `l` or `s` is allowed (not both).
+  * `[argument]` means that `argument` can be omitted.
+  * `<argument-description>` means that you should not see `argument-description` as a
     string, but interpret it: e.g. call add `<number>` as `add 1` and not as `add number`.
 
 # 2 Coordinates
