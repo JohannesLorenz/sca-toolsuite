@@ -1,0 +1,5 @@
+language: cpp
+compiler:
+  - clang
+# Compiling:
+script: mkdir build && cmake -DNO_BOOST_GRAPH=1 .. && make
