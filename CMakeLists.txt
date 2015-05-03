@@ -119,7 +119,7 @@ MESSAGE("CHECKING FOR LIBRARIES...")
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
-find_package(Boost 1.48.0
+find_package(Boost 1.46.0
 	REQUIRED
 	COMPONENTS graph)
 
