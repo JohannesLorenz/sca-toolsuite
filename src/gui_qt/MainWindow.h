@@ -37,6 +37,7 @@
 
 #include "labeled_widget.h"
 #include "StateMachine.h"
+#include "MsgTimer.h"
 #include "DrawArea.h"
 #include "MenuBar.h"
 
@@ -68,6 +69,8 @@ class MainWindow : public QMainWindow
 //	LabeledWidget<QLineEdit> ca_formula_edit;
 	LabeledWidget<QPushButton> ca_type_edit;
 
+	MsgTimer msg_timer;
+
 	void setup_ui();
 	void retranslate_ui();
 
@@ -84,6 +87,7 @@ public:
 public slots:
 	void slot_help_about ();
 	void slot_help_about_qt ();
+	void on_status_msg_changed(const char *new_msg);
 };
 
 #endif // MAINWINDOW_H

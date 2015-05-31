@@ -18,55 +18,35 @@
 /* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110, USA  */
 /*************************************************************************/
 
-#include <QApplication>
-#include "general.h"
-#include "MainWindow.h"
+#include <QDebug>
+#include "MsgTimer.h"
 
-class MyProgram : public Program
+void MsgTimer::on_timeout()
 {
-	exit_t main()
+	if(!queue.empty())
 	{
-		const char *ca_eq =
-			"v+(-4*(v>=4))"
-			"+(a[-1,0]>=4)+(a[0,-1]>=4)+(a[1,0]>=4)+(a[0,1]>=4)",
-			*input_eq = "v+1";
-
-		switch(argc)
-		{
-			case 3:
-				input_eq = argv[2];
-			case 2:
-				ca_eq = argv[1];
-			case 1:
-				break;
-			default:
-				exit_usage();
-		}
-
-		std::cerr << "Waiting for a grid as input...\n"
-			"If no GUI shows up, you might want to try:\n"
-			"  core/create 10 10 0 | gui_qt/gui\n" << std::endl;
-
-		QApplication app(argc, argv);
-		MainWindow mainwindow(ca_eq, input_eq);
-		mainwindow.show();
-
-		return success(app.exec() == 0);
+		on_message_changed(queue.front().toAscii().data());
+		queue.pop_front();
+		timer.start(timeout_msec);
 	}
-};
-
-int main(int argc, char** argv)
-{
-	HelpStruct help;
-	help.syntax = "gui_qt/gui_qt [<ca_formula> [<input_formula>]]";
-	help.description = "GUI to simulate CA.";
-	help.input = "start grid for simulation";
-	help.output = "end grid of simulation";
-	help.add_param("ca_equation", "formula for the ca, default is ASM");
-	help.add_param("input_formula", "formula for mouse click input"
-		"default is `v+1'");
-
-	MyProgram p;
-	return p.run(argc, argv, &help);
 }
 
+MsgTimer::MsgTimer(QObject *parent) :
+	QObject(parent)
+{
+	connect(&timer, SIGNAL(timeout()), this, SLOT(on_timeout()));
+}
+
+void MsgTimer::add_message(const char *msg)
+{
+	//queue.append(msg);
+	if(timer_running)
+	{
+		queue.push_back(msg);
+	}
+	else // queue must be empty, bypass it
+	{
+		on_message_changed(msg);
+		timer.start(timeout_msec);
+	}
+}

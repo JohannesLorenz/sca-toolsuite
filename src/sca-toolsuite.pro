@@ -60,7 +60,8 @@ HEADERS += res/io.h res/stack_algorithm.h \
 	res/odometer.h \
 	res/scc_algo.h \
 	search/old_dep_graph.h \
-    res/ca/preimage.h
+    res/ca/preimage.h \
+    gui_qt/MsgTimer.h
 SOURCES += algo/relax.cpp \
 	core/create.cpp \
 	io/avalanches_bin2human.cpp \
@@ -125,7 +126,8 @@ SOURCES += algo/relax.cpp \
 	search/search.cpp \
 	search/stats.cpp \
     ca/active_cells.cpp \
-    ca/preimage.cpp
+    ca/preimage.cpp \
+    gui_qt/MsgTimer.cpp
 OTHER_FILES += ../DOCUMENTATION.md \
 	../INSTALL.md \
 	../README.md \

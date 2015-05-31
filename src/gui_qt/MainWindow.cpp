@@ -73,6 +73,8 @@ void MainWindow::setup_ui()
 		this, SLOT(change_ca_type()));
 	connect(&menu_bar, SIGNAL(toggle_fullscreen()),
 		this, SLOT(slot_fullscreen()));
+	connect(&msg_timer, SIGNAL(on_message_changed(const char*)),
+		this, SLOT(on_status_msg_changed(const char*)));
 
 	/*pixel_size_chooser.widget().setMinimum(1);
 	pixel_size_chooser.widget().setMaximum(255);
@@ -140,7 +142,12 @@ void MainWindow::state_updated(StateMachine::STATE new_state)
 
 	menu_bar.state_updated(new_state);
 
-	statusBar()->showMessage(state_machine.status_msg());
+	msg_timer.add_message(state_machine.status_msg());
+}
+
+void MainWindow::on_status_msg_changed(const char* new_msg)
+{
+	statusBar()->showMessage(new_msg);
 }
 
 void MainWindow::change_pixel_size(int new_size)
