@@ -20,8 +20,8 @@
 
 #include "StateMachine.h"
 
-const char* (StateMachine::msg[6]) = {
-	"Welcome. This GUI is currently WIP.",
+const char* (StateMachine::msg[5]) = {
+//	"Welcome. This GUI is currently WIP.",
 	"Stable.",
 	"Instable.",
 	"Simulating.",
@@ -29,6 +29,6 @@ const char* (StateMachine::msg[6]) = {
 	"Stable, Paused." };
 
 StateMachine::StateMachine() :
-	state(STATE_WELCOME)
+	state(STATE_STABLE)
 {
 }

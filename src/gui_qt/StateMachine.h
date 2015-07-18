@@ -29,14 +29,14 @@ class StateMachine : public QObject
 public:
 	enum STATE
 	{
-		STATE_WELCOME, //!< welcome message, same as stable
+	//	STATE_WELCOME, //!< welcome message, same as stable
 		STATE_STABLE, //!< stable
 		STATE_INSTABLE, //!< instable, but not simulating (i.e. paused)
 		STATE_SIMULATING, //!< simulating right now
 		STATE_STEP, //!< simulating right now, but only for one step
 		STATE_STABLE_PAUSED //!< stable and paused
 	};
-	static const char* (msg[6]);
+	static const char* (msg[5]);
 
 private:
 	STATE state;
@@ -62,7 +62,7 @@ public slots:
 			case STATE_INSTABLE: set(STATE_SIMULATING); break;
 			case STATE_SIMULATING: set(STATE_INSTABLE); break;
 			case STATE_STABLE:
-			case STATE_WELCOME:
+//			case STATE_WELCOME:
 				set(STATE_STABLE_PAUSED); break;
 			case STATE_STABLE_PAUSED: set(STATE_STABLE); break;
 			default: illegal_state();

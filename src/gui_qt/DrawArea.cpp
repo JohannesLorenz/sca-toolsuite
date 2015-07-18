@@ -130,7 +130,7 @@ void DrawArea::onMousePressed(point coords)
 	StateMachine::STATE state = state_machine.get();
 
 	if(state == StateMachine::STATE_STABLE
-		|| state == StateMachine::STATE_WELCOME
+		//|| state == StateMachine::STATE_WELCOME
 		|| state == StateMachine::STATE_STABLE_PAUSED)
 	{
 		ca->input(coords);
