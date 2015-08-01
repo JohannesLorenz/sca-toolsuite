@@ -112,16 +112,23 @@ class MyProgram : public Program
 			bool parse(FILE* in_fp)
 			{
 				char hdr_buf[14];
-				fread(hdr_buf, 1, sizeof(hdr_buf), in_fp);
+				auto safe_fread = [](void *ptr, size_t size,
+					size_t nmemb, FILE *stream) {
+					if(fread(ptr, size, nmemb, stream)
+						!= nmemb)
+					 throw "parse error.";
+				};
+
+				safe_fread(hdr_buf, 1, sizeof(hdr_buf), in_fp);
 				for(std::size_t i = 0; i < sizeof(hdr_buf); ++i)
 				 if(hdr_buf[i] != 0)
 				{
 					std::cerr << "Byte " << i << " is not a header byte" << std::endl;
 					return false;
 				}
-				fread(&size_each, 1, 1, in_fp);
-				fread(&div_size, 1, 1, in_fp);
-				fread(&offset, 8, 1, in_fp);
+				safe_fread(&size_each, 1, 1, in_fp);
+				safe_fread(&div_size, 1, 1, in_fp);
+				safe_fread(&offset, 8, 1, in_fp);
 				return true;
 			}
 		} hdr_info;

@@ -57,7 +57,7 @@ Reasons for using it include the following.
 # 3 Thanks to
 In alphabetical order, the author thanks:
   * All people who give support for bost::spirit [3].
-  * Oliver Schneider. (TODO: Website?)
+  * Oliver Schneider.
   * Philipp Lorenz.
   * Sebastian Frehmel, his diploma thesis at [2].
   * Dr Thomas Worsch [1] @ The Karlsruhe Institute of Technology (KIT).

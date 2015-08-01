@@ -28,7 +28,7 @@
 #include "general.h"
 
 void os_sleep(unsigned int seconds) { sleep(seconds); }
-void os_clear() { system("clear"); }
+void os_clear() { int r = system("clear"); (void)r; }
 
 void Program::print_termination_string() const {
 	std::cerr << argv[0] << ": Terminating on fatal error" << std::endl;
