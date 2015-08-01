@@ -59,6 +59,15 @@ class MyProgram : public Program
 		//std::set<point> s4{{0, 0}, {2, 0}};
 		//sca::ca::conf_t c5 = sca::ca::conf_t::substract(s1, c1, s4, )
 
+		{
+			bounding_box b1, b2, b3;
+			b1.add_point(point(1,0));
+			b2.add_point(point(0,1));
+			b3 = unite(b1, b2);
+			std::cerr << b1 << b2 << b3 << std::endl;
+			assert(b3.ul() == point(0, 0));
+			assert(b3.lr() == point(1, 1));
+		}
 		grid_t g1(dimension(4, 4), 1, 0, -1);
 		g1[point(1, 1)] = 1;
 		g1[point(1, 2)] = 2;

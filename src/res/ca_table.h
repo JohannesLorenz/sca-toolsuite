@@ -120,6 +120,16 @@ private:
 	}
 	const n_t& n_out() const noexcept {  }*/
 
+	template<class Traits>
+	_n_t_v<Traits> calc_n(const n_t& n_ref) const
+	{
+		using point = _point<Traits>;
+		std::vector<point> res_v;
+		for(const auto& p : n_ref)
+		 res_v.push_back(point(p.x, p.y));
+		return _n_t_v<Traits>(std::move(res_v));
+	}
+
 protected:
 	void set_dead_states(uint32_t bitmask) noexcept
 	{
@@ -169,21 +179,14 @@ public:
 
 	template<class Traits>
 	typename Traits::u_coord_t calc_border_width() const noexcept { return bw; }
+
 	template<class Traits>
 	_n_t_v<Traits> calc_n_in() const {
-		using point = _point<Traits>;
-		std::vector<point> res_v;
-		for(const auto& p : _n_in)
-		 res_v.push_back(point(p.x, p.y));
-		return _n_t_v<Traits>(std::move(res_v));
+		return calc_n<Traits>(_n_in);
 	}
 	template<class Traits>
 	_n_t_v<Traits> calc_n_out() const {
-		using point = _point<Traits>;
-		std::vector<point> res_v;
-		for(const auto& p : _n_out)
-		 res_v.push_back(point(p.x, p.y));
-		return _n_t_v<Traits>(std::move(res_v));
+		return calc_n<Traits>(_n_out);
 	}
 
 	std::size_t num_states() const noexcept { return own_num_states; }

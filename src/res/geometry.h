@@ -476,7 +476,8 @@ class _bounding_box
 	using u_coord_t = typename Traits::u_coord_t;
 	point _ul, _lr;
 public:
-	constexpr _bounding_box() : _ul(point::zero()), _lr(point::zero()) {}
+	constexpr _bounding_box(point _ul, point _lr) : _ul(_ul), _lr(_lr) {}
+	constexpr _bounding_box() : _bounding_box(point::zero(), point::zero()) {}
 	/*template<class Cont>
 	_bounding_box(const Cont& sorted_points)
 	{ // TODO: const ctor
@@ -515,7 +516,28 @@ public:
 	u_coord_t coords_to_id(const point& p) const {
 		return (p.y - _ul.y) * y_size() + (p.x - _ul.x);
 	}
+
+	friend std::ostream& operator<< (std::ostream& stream,
+		const _bounding_box& b) {
+		return stream << "bounding_box ("
+			<< b.ul() << " <-> " << b.lr() << ")";
+	}
+
+//	friend _bounding_box unite(const _bounding_box& b1, const _bounding_box& b2);
 };
+
 using bounding_box = _bounding_box<def_coord_traits>;
+
+template<class T>
+constexpr inline _bounding_box<T> unite(const _bounding_box<T>& b1,
+	const _bounding_box<T>& b2)
+{
+	return _bounding_box<T>(
+		_point<T>(std::min(b1.ul().x, b2.ul().x),
+			std::min(b1.ul().y, b2.ul().y)),
+		_point<T>(std::min(b1.lr().x, b2.lr().x),
+			std::min(b1.lr().y, b2.lr().y))
+	);
+}
 
 #endif // GEOMETRY_H

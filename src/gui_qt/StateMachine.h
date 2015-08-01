@@ -21,6 +21,10 @@
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
 
+#ifdef SCA_DEBUG
+	#include <iostream>
+#endif
+
 #include <QObject>
 
 class StateMachine : public QObject
@@ -46,7 +50,11 @@ public:
 	inline const char* status_msg() const { return msg[state]; }
 	inline void set(STATE new_state, bool force = false)
 	{
-		if(force || state!=new_state) {
+		if(force || state!=new_state)
+		{
+#ifdef SCA_DEBUG
+			std::cerr << "New state: " << state << std::endl;
+#endif
 			state = new_state;
 			emit updated(state);
 		}

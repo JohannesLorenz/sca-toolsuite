@@ -484,6 +484,8 @@ class n_t_2 : public _n_t<T>
 
 		_bb = init_bb(); //TODO: no bb ever necessary
 	}
+
+
 public:
 	_n_t(std::istream& stream) { stream >> *this; } // TODO: const ctor
 	_n_t() = default;
@@ -523,6 +525,17 @@ public:
 	_n_t(const Container&& cont) : _n(cont), _bb(init_bb()) {}
 
 	const Container& neighbours() const noexcept { return _n; }
+
+	_n_t& append(const _n_t& other)
+	{
+		std::size_t sz = _n.size();
+		_n.insert(_n.end(), other._n.begin(), other._n.end());
+		std::inplace_merge(_n.begin(), _n.begin() + sz, _n.end());
+
+		_bb = unite(_bb, other._bb);
+
+		return *this;
+	}
 
 	//! assumes that no borders exist
 /*	template<std::size_t N>

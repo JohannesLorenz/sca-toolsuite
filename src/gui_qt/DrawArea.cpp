@@ -38,6 +38,8 @@ DrawArea::DrawArea(StateMachine& _state_machine, sca::ca::input_ca* ca, QWidget 
 	ca(ca),
 	grid_layout(this)
 {
+	set_timeout_interval(TIMER_INTERVAL);
+
 	connect(&next_fire_timer, SIGNAL(timeout()),
 		this, SLOT(slot_timeout()));
 	connect(&state_machine, SIGNAL(updated(StateMachine::STATE)),
@@ -164,10 +166,10 @@ void DrawArea::fill_grid(std::istream &inf)
 	// TODO: redundant -> see reset_ca()
 	update_pixmap();
 	state_machine.trigger_throw();
-	if(state_machine.get() != StateMachine::STATE_INSTABLE)
+	/*if(state_machine.get() != StateMachine::STATE_INSTABLE)
 	{
 		next_fire_timer.start();
-	}
+	}*/
 }
 
 void DrawArea::on_reset_ca(sca::ca::input_ca *new_ca)

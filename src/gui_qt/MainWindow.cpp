@@ -56,9 +56,6 @@ void MainWindow::setup_ui()
 	vbox_right.addLayout(&ca_type_edit.layout());
 	btn_run.setCheckable(true);
 
-	draw_area.fill_grid();
-	draw_area.set_pixel_size(pixel_size_chooser.widget().value());
-
 	connect(&time_interval_chooser.widget(), SIGNAL(valueChanged(int)),
 		&draw_area, SLOT(set_timeout_interval(int)));
 	connect(&pixel_size_chooser.widget(), SIGNAL(valueChanged(int)),
@@ -73,6 +70,9 @@ void MainWindow::setup_ui()
 		this, SLOT(change_ca_type()));
 	connect(&menu_bar, SIGNAL(toggle_fullscreen()),
 		this, SLOT(slot_fullscreen()));
+
+	draw_area.fill_grid();
+	draw_area.set_pixel_size(pixel_size_chooser.widget().value());
 
 	/*pixel_size_chooser.widget().setMinimum(1);
 	pixel_size_chooser.widget().setMaximum(255);
@@ -107,6 +107,7 @@ MainWindow::MainWindow(const char *ca_eq, const char *input_eq, QWidget *parent)
 {
 	setup_ui();
 	retranslate_ui();
+	state_machine.set(StateMachine::STATE_STABLE);
 	state_machine.set(ca->can_run() ? StateMachine::STATE_INSTABLE
 				: StateMachine::STATE_STABLE);
 }
@@ -136,6 +137,10 @@ void MainWindow::state_updated(StateMachine::STATE new_state)
 			btn_step.setDisabled(true);
 			break;
 	}
+
+	btn_run.setDisabled(new_state == StateMachine::STATE_STABLE);
+	btn_run.setChecked(new_state == StateMachine::STATE_STABLE_PAUSED
+		|| new_state == StateMachine::STATE_INSTABLE);
 
 	menu_bar.state_updated(new_state);
 

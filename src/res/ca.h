@@ -138,9 +138,13 @@ public:
 
 private:
 	const u_coord_t _border_width;
-	const n_t _n_in, _n_out;
+	const n_t _n_in, _n_out, _n_dep;
 	const point cc_out;
 	mutable grid_t tmp_out_grid;
+
+	n_t calc_n_dep() const {
+		return n_t(_n_in).append(_n_out);
+	}
 
 public:
 	// TODO: single funcs to initialize and make const?
@@ -150,17 +154,20 @@ public:
 		_border_width(_base::template calc_border_width<Traits>()),
 		_n_in(_base::template calc_n_in<Traits>()),
 		_n_out(_base::template calc_n_out<Traits>()),
+		_n_dep(calc_n_dep()),
 		cc_out(_n_out.center()),
 		tmp_out_grid(_n_out.dim(), 0)
 	{
 	}
 
+	// TODO: duplicate ctors -> bad!
 	//! tries to synch (TODO: better word) the CA from a file
 	_calculator_t(std::istream& stream) :
 		Solver(stream),
 		_border_width(_base::template calc_border_width<Traits>()),
 		_n_in(_base::template calc_n_in<Traits>()),
 		_n_out(_base::template calc_n_out<Traits>()),
+		_n_dep(calc_n_dep()),
 		cc_out(_n_out.center()),
 		tmp_out_grid(_n_out.dim(), 0)
 	{
@@ -169,6 +176,7 @@ public:
 	const u_coord_t& border_width() const noexcept { return _border_width; }
 	const n_t& n_in() const noexcept { return _n_in; }
 	const n_t& n_out() const noexcept { return _n_out; }
+	const n_t& n_dep() const noexcept { return _n_dep; }
 
 	//! calculates next state at (human) position (x,y)
 	//! @param dim the grids internal dimension
@@ -394,7 +402,7 @@ class simulator_t : /*private _ca_calculator_t<Solver>,*/ public input_ca
 
 	grid_t _grid[3];
 	grid_t *old_grid = _grid, *new_grid = _grid; // TODO: old grid const?
-	typename calc_class::n_t n_in, n_out; // TODO: const?
+	typename calc_class::n_t n_in, n_out, n_dep; // TODO: const?
 	std::vector<point> new_changed_cells;
 	std::vector<point> change_order; // initialize with some size?
 	//! temporary variable
@@ -416,6 +424,7 @@ public:
 			ca_calc.border_width()},
 		n_in(ca_calc.n_in()),
 		n_out(ca_calc.n_out()),
+		n_dep(ca_calc.n_dep()),
 		async(async)
 	{
 	}
@@ -579,7 +588,7 @@ public:
 //		new_grid->reset(std::numeric_limits<int>::min());
 
 		for(const point& ap : new_changed_cells)
-		for(const point& np : n_in)
+		for(const point& np : n_dep)
 		 add_cell_if_variable_and_async(ap + np);
 		new_changed_cells.resize(0); // will not affect capacity!
 

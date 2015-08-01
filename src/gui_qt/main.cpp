@@ -27,9 +27,9 @@ class MyProgram : public Program
 	exit_t main()
 	{
 		const char *ca_eq =
-			"v+(-4*(v>=4))"
+			"v:=v+(-4*(v>=4))"
 			"+(a[-1,0]>=4)+(a[0,-1]>=4)+(a[1,0]>=4)+(a[0,1]>=4)",
-			*input_eq = "v+1";
+			*input_eq = "v:=v+1";
 
 		switch(argc)
 		{

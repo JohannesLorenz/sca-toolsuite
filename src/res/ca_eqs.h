@@ -45,6 +45,20 @@ private:
 	std::size_t _num_states;
 //	n_t_const neighbourhood;
 
+
+	template<class Traits>
+	_n_t<Traits,std::vector<_point<Traits>>> calc_n(bool is_n_in) const
+	{
+		using point = _point<Traits>;
+		eqsolver::ast_area_cont<eqsolver::variable_area_cont<std::set<point>>>
+			grid_solver_2(is_n_in);
+		std::set<point> res = grid_solver_2(ast);
+		std::vector<point> res_v;
+		std::move(res.begin(), res.end(), std::back_inserter(res_v));
+		return _n_t<Traits,std::vector<point>>(std::move(res_v));
+	}
+
+
 public:
 	std::size_t num_states() const noexcept { return _num_states; }
 
@@ -59,25 +73,19 @@ public:
 	template<class Traits>
 	_n_t<Traits,std::vector<_point<Traits>>> calc_n_in() const
 	{
-		using point = _point<Traits>;
-		eqsolver::ast_area_cont<eqsolver::variable_area_cont<std::set<point>>>
-			grid_solver_2(true);
-		std::set<point> res = grid_solver_2(ast);
-		std::vector<point> res_v;
-		std::move(res.begin(), res.end(), std::back_inserter(res_v));
-		return _n_t<Traits,std::vector<point>>(std::move(res_v));
+		return calc_n<Traits>(true);
 	}
 
 	template<class Traits>
 	_n_t<Traits,std::vector<_point<Traits>>> calc_n_out() const
 	{
-		using point = _point<Traits>;
-		eqsolver::ast_area_cont<eqsolver::variable_area_cont<std::set<point>>>
-			grid_solver_2(false);
-		std::set<point> res = grid_solver_2(ast);
-		std::vector<point> res_v;
-		std::move(res.begin(), res.end(), std::back_inserter(res_v));
-		return _n_t<Traits,std::vector<point>>(std::move(res_v));
+		return calc_n<Traits>(false);
+	}
+
+	template<class Traits>
+	_n_t<Traits,std::vector<_point<Traits>>> calc_n_dep() const
+	{
+		return unite(calc_n_in<Traits>(), calc_n_out<Traits>());
 	}
 
 	~eqsolver_t() noexcept { delete[] helper_vars; }
