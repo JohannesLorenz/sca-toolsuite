@@ -44,10 +44,10 @@ int Program::run(int _argc, char **_argv, const HelpStruct *_help)
 
 	assert(help->description && help->syntax);
 	if(argc > 1 && (!strcmp(argv[1],"--help")||!strcmp(argv[1],"-help")))
-		{
-			help->print_help();
-			::exit(0);
-		}
+	{
+		help->print_help();
+		::exit(0);
+	}
 
 	exit_t return_value = exit_t::failure;
 	try {
