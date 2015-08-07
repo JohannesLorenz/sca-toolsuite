@@ -544,6 +544,7 @@ public:
 
 		cells_to_check.clear();
 
+		// adds the cell to cells_to_check if it is variable
 		const auto add_cell_if_variable_and_async = [&](const point& p)
 		{
 			if(sim_rect.is_inside(p))
@@ -586,18 +587,22 @@ public:
 		};
 
 //		new_grid->reset(std::numeric_limits<int>::min());
-
+		
+		// variable cells this round are either neighbours of
+		// recently changed cells...
 		for(const point& ap : new_changed_cells)
 		for(const point& np : n_dep)
 		 add_cell_if_variable_and_async(ap + np);
 		new_changed_cells.resize(0); // will not affect capacity!
 
+		// ... or neighbours of cells that 
 		for(const point& p : cells_not_token)
 		 add_cell_if_variable_and_async(p);
 		cells_not_token.clear();
 
 	//	std::cerr << "NG:" << std::endl << (*new_grid) << std::endl;
-
+		
+		// shuffle the order of active cells
 		std::copy(cells_to_check.begin(), cells_to_check.end(), std::back_inserter(change_order));
 
 		std::random_device rd;
@@ -608,7 +613,9 @@ public:
 
 		std::set<point> final_dec;
 
-
+		// find out which cells can be token
+		// (=> final dec, reserved on _grid[2])
+		// and which can not (=> cells not token)
 		// TODO: the log factor would be avoidable...
 		for(point& cp : change_order)
 		{
@@ -634,6 +641,19 @@ public:
 		if(final_dec.find(p) == final_dec.end())
 		 (*new_grid)[p] = (*old_grid)[p];
 		else*/
+		for(const point& p : cells_not_token)
+		{
+			// TODO: duplicate of above call!
+		/*	ca_calc.next_state
+					(&((*old_grid)[p]),
+						p, _grid->internal_dim(),
+						&((*new_grid)[p]), _grid->internal_dim());*/
+			(*new_grid)[p] = (*old_grid)[p];
+			/*n_out.for_each(n_out.center(), [&](const point& np){
+				(*new_grid)[p + np] = (*old_grid)[p + np];
+			});*/
+		}
+
 		for(const point& p : final_dec)
 		{
 			// TODO: duplicate of above call!
