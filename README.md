@@ -5,10 +5,11 @@ Welcome! Thank you for considering the README file.
 
   1. What is the sca-toolsuite?
   2. Why using the sca-toolsuite?
-  3. Thanks to
-  4. Links
-  5. Contact
-  6. Enclosed files
+  3. Getting it
+  4. Thanks to
+  5. Links
+  6. Contact
+  7. Enclosed files
 
 # 1 What is the sca-toolsuite?
 
@@ -54,7 +55,23 @@ Reasons for using it include the following.
     * spreadsheet (future feature)
     * ...
 
-# 3 Thanks to
+# 3 Getting it
+
+There are (at least) two branches of sca-toolsuite: *stable* and *master*. If
+you're a user who needs a stable version, use the *stable* branch:
+```
+git clone -b stable git@github.com:JohannesLorenz/sca-toolsuite.git #ssh
+git clone -b stable https://github.com/JohannesLorenz/sca-toolsuite.git #https
+```
+However, if you're a developer who would like to be up to date and can risk
+unstable versions, use the master *branch*:
+```
+git clone git@github.com:JohannesLorenz/sca-toolsuite.git
+```
+
+Now, you can proceed with the [installation](INSTALL.md).
+
+# 4 Thanks to
 In alphabetical order, the author thanks:
   * All people who give support for bost::spirit [3].
   * Oliver Schneider.
@@ -62,13 +79,13 @@ In alphabetical order, the author thanks:
   * Sebastian Frehmel, his diploma thesis at [2].
   * Dr Thomas Worsch [1] @ The Karlsruhe Institute of Technology (KIT).
 
-# 4 Links
+# 5 Links
 Links from this document:
   2. http://liinwww.ira.uka.de/~thw/
   4. http://www.sebastianfrehmel.de/studium/diplomarbeit/
   6. http://boost-spirit.com/home/feedback-and-support/
 
-# 5 Contact
+# 6 Contact
 Feel free to give feedback. My e-mail address is shown if you execute this in
 a shell:
 ```sh
@@ -76,7 +93,7 @@ printf "\x6a\x6f\x68\x61\x6e\x6e\x65\x73\x40\x6c\x6f\
 \x72\x65\x6e\x7a\x2d\x70\x72\x69\x76\x61\x74\x2e\x6e\x65\x74\x0a"
 ```
 
-# 6 Enclosed files
+# 7 Enclosed files
 The following files provide more information:
   * [BENCHMARKS](BENCHMARKS.md)
   * [DOCUMENTATION](DOCUMENTATION.md)
