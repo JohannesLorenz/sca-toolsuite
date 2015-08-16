@@ -23,16 +23,18 @@ In this directory, type:
 ```sh
 mkdir build
 cd build
-cmake .. # TODO: define SCA_DEBUG, -Wall, -g
+cmake .. # TODO: describe help about SCA_DEBUG, -Wall, -g
+make # we suggest make -j<n>, where n is the number of CPU cores
 ```
 
 If you get boost compile errors now, try to disable boost::graph:
 ```
 cmake -DNO_BOOST_GRAPH=1 ..
+make
 ```
 
 # 3 Installation of the Qt GUI
-The gui is built directly with the other tools, if you have qt installed.
+The gui is built directly with the other tools, if you have Qt installed.
 
 # 4 Debugging
 The sca toosuite gives you debug output exactly if both of the following

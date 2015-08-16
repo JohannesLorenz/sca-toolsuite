@@ -64,7 +64,7 @@ git clone -b stable git@github.com:JohannesLorenz/sca-toolsuite.git #ssh
 git clone -b stable https://github.com/JohannesLorenz/sca-toolsuite.git #https
 ```
 However, if you're a developer who would like to be up to date and can risk
-unstable versions, use the master *branch*:
+unstable versions, use the *master* branch:
 ```
 git clone git@github.com:JohannesLorenz/sca-toolsuite.git
 ```
