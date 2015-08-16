@@ -2,9 +2,30 @@
 # General
 #
 
-#Specify the version being used aswell as the language
 cmake_minimum_required(VERSION 2.8)
-#Name your project here
+
+# Compiler - must be done before "project"
+
+set(WARN_EXC "")
+
+if(COMPILER STREQUAL "gcc")
+	# enable these flags if you get tons of errors from boost...
+	#set(WARN_EXC "-Wno-unused-local-typedefs -Wno-maybe-uninitialized")
+	set(CMAKE_CXX_FLAGS_RELEASE "-flto")
+	#set(FLTO_FLAGS "-flto") # TODO
+
+	set(FLTO_FLAGS "")
+	SET( CMAKE_CXX_COMPILER "g++" )
+	SET( CMAKE_C_COMPILER "gcc" )
+elseif(COMPILER STREQUAL "clang")
+	set(FLTO_FLAGS "") # not supported by clang on most platforms
+
+	SET( CMAKE_CXX_COMPILER "clang++" )
+	SET( CMAKE_C_COMPILER "clang" )
+else()
+	message(FATAL_ERROR "Please specify -DCOMPILER=[gcc|clang]")
+endif()
+
 project(sca-toolsuite)
 
 SET(VERSION_MAJOR "1")
@@ -153,26 +174,6 @@ endif()
 # Compile
 #
 
-set(WARN_EXC "")
-
-if(COMPILER STREQUAL "gcc")
-	# enable these flags if you get tons of errors from boost...
-	#set(WARN_EXC "-Wno-unused-local-typedefs -Wno-maybe-uninitialized")
-	set(CMAKE_CXX_FLAGS_RELEASE "-flto")
-	#set(FLTO_FLAGS "-flto") # TODO
-
-	set(FLTO_FLAGS "")
-	SET( CMAKE_CXX_COMPILER "g++" )
-	SET( CMAKE_CC_COMPILER "gcc" )
-elseif(COMPILER STREQUAL "clang")
-	set(FLTO_FLAGS "") # not supported by clang on most platforms
-
-	SET( CMAKE_CXX_COMPILER "clang++" )
-	SET( CMAKE_CC_COMPILER "clang" )
-else()
-	message(FATAL_ERROR "Please specify -DCOMPILER=[gcc|clang]")
-endif()
-
 #if(LFTO STREQUAL "1")
 
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -184,7 +185,7 @@ endif()
 # FLAGS
 # the order of -Wall -Wno-unknown-pragmas is important
 # TODO: -Werror
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall ${WARN_EXC} -std=c++11 -pipe")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra ${WARN_EXC} -std=c++11 -pipe")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 ${FLTO_FLAGS}")
 

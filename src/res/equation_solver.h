@@ -477,10 +477,11 @@ private:
 	template<class NaryOpT, std::size_t ...Idxs>
 	inline res_type apply_fptr(NaryOpT const& expr, seq<Idxs...>) const
 	{
-		// the temprorary variable assures that the
-		// apply order is correct
+		// the temporary variable assures that the
+		// apply order is correct (at least in C++11)
 		result_type res[sizeof...(Idxs)] = { // TODO: make this const?
 			boost::apply_visitor(*this, expr.subtrees[Idxs].expr)... };
+	/*	std::cerr << boost::get<nary_op<int, int>>(expr.subtrees[0].expr).op << std::endl;*/
 		return expr.fptr(res[Idxs]...);
 	}
 
