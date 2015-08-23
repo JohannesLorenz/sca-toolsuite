@@ -1,6 +1,6 @@
 language: cpp
 compiler:
-  - clang
+  - g++
 addons:
   apt:
     sources:
@@ -14,4 +14,4 @@ addons:
 #  - sudo apt-get update -qq
 #  - sudo apt-get install libboost-dev libboost-graph1.46.1 libboost-graph1.46-dev libqt4-dev qt4-qmake
 # Compiling:
-script: mkdir build && cd build && cmake -DCOMPILER=clang -DCMAKE_BUILD_TYPE=Release -DNO_BOOST_GRAPH=1 .. && make VERBOSE=1 && cd ..
+script: mkdir build && cd build && cmake -DCOMPILER=gcc -DCMAKE_BUILD_TYPE=Release -DNO_BOOST_GRAPH=1 .. && make VERBOSE=1 && cd ..
