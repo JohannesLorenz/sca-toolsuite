@@ -22,6 +22,8 @@ elseif(COMPILER STREQUAL "clang")
 
 	SET( CMAKE_CXX_COMPILER "clang++" )
 	SET( CMAKE_C_COMPILER "clang" )
+elseif(COMPILER STREQUAL "native")
+	message("Using native C/C++ compilers.")
 else()
 	message(FATAL_ERROR "Please specify -DCOMPILER=[gcc|clang]")
 endif()

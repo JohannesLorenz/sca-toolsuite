@@ -1,8 +1,16 @@
-language: cpp
-compiler:
-  - clang
-before_script:
-  - sudo apt-get update -qq
-  - sudo apt-get install libboost-dev libboost-graph1.46.1 libboost-graph1.46-dev libqt4-dev qt4-qmake
-# Compiling:
-script: mkdir build && cd build && cmake -DCOMPILER=clang -DCMAKE_BUILD_TYPE=Release -DNO_BOOST_GRAPH=1 .. && make && cd ..
+language: cpp                                                                                                                                                                                                                                
+compiler:                                                                                                                                                                                                                                    
+  - g++                                                                                                                                                                                                                                      
+addons:                                                                                                                                                                                                                                      
+  apt:                                                                                                                                                                                                                                       
+    sources:                                                                                                                                                                                                                                 
+      - ubuntu-toolchain-r-test                                                                                                                                                                                                              
+      - boost-latest                                                                                                                                                                                                                         
+    packages:                                                                                                                                                                                                                                
+      - gcc-4.9                                                                                                                                                                                                                              
+      - g++-4.9                                                                                                                                                                                                                              
+      - libboost1.55-all-dev                                                                                                                                                                                                                 
+      - cmake
+install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9"; fi
+script: mkdir build && cd build && cmake -DCOMPILER=native -DCMAKE_BUILD_TYPE=Release -DNO_BOOST_GRAPH=1 .. && make VERBOSE=1 && cd ..
