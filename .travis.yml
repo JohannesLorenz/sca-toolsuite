@@ -13,4 +13,4 @@ addons:
       - cmake
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9"; fi
-script: mkdir build && cd build && cmake -DCOMPILER=native -DCMAKE_BUILD_TYPE=Release -DNO_BOOST_GRAPH=1 .. && make VERBOSE=1 && cd ..
+script: mkdir build && cd build && cmake -DCOMPILER=native -DCMAKE_BUILD_TYPE=Release -DNO_BOOST_GRAPH=1 .. && make && make test && cd ..
