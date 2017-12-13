@@ -186,7 +186,7 @@ class MyProgram : public Program
 
 		if(result == exit_t::success)
 			std::cerr << std::endl
-				<< "Success. Now call: `./eval help < results.dat'."
+				<< "Success. Now call: `src/eval help < results.dat'."
 				<< std::endl << std::endl;
 		else
 			std::cerr << std::endl
