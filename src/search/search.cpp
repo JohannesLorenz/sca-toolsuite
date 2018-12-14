@@ -186,7 +186,7 @@ class MyProgram : public Program
 
 		if(result == exit_t::success)
 			std::cerr << std::endl
-				<< "Success. Now call: `src/eval help < results.dat'."
+				<< "Success. Now call: `./search/eval help < results.dat'."
 				<< std::endl << std::endl;
 		else
 			std::cerr << std::endl
@@ -202,13 +202,13 @@ int main(int argc, char** argv)
 	increase_stack_size(1000);
 
 	HelpStruct help;
-	help.syntax = "usr/search <equation-file> <border> [dump|nodump [split|left|dumb]]"
+	help.syntax = "usr/search <ca-table-file> <border> [dump|nodump [split|left|dumb]]"
 		"";
 	help.description = "Computes all end configurations "
 		"using split algorithm.";
 	help.input = "Input grid in a format generated with ../ca/dump.";
 	help.output = "All possible end configurations, including sccs";
-	help.add_param("equation-file", "file containing the ca's equation");
+	help.add_param("ca-table-file", "file containing the ca's equation");
 	help.add_param("border", "state that, set on border, will be dead");
 	help.add_param("dump|nodump", "whether to dump graph on exit/abort");
 	help.add_param("split|left|dumb",

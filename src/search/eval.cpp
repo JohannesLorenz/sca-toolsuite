@@ -466,7 +466,7 @@ struct data : public types
 			<< "text\n\n0\n\nKonfigurationen insgesamt:\n\n1\n\n" << stats.total + stats.sorted_out_2 + stats.sorted_out_1
 			<< "\n\n2\n\ndavon nicht bewegbar:\n\n3\n\n" << stats.total + stats.sorted_out_2
 			<< "\n\n4\n\ndavon nicht isolierbar:\n\n5\n\n" << stats.total
-			<< "\n\n6\n\nLaufzeit (s):\n\n7\n\n" << "<" << stats.runtime_sec+1
+			<< "\n\n6\n\nLaufzeit (s):\n\n7\n\n" << "$<" << stats.runtime_sec+1 << "$"
 			<< "\n\npath\n\n0\n\n\n1\n\n\n"
 				"path\n\n2\n\n\n3\n\n\n"
 				"path\n\n4\n\n\n5\n\n\n"
