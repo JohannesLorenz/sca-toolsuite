@@ -4,6 +4,7 @@ if(BUILD_IMG_MAGICK)
 	add_definitions(-DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16)
 	include_directories(${ImageMagick_INCLUDE_DIRS})
 	add_executable(transform "${src_dir}/transform.cpp")
+	# link against all libraries, everything else does not seem to work on Arch
 	target_link_libraries(transform res ${ImageMagick_LIBRARIES} -ljpeg -lpng)
 endif(BUILD_IMG_MAGICK)
 

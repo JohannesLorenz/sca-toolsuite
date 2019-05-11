@@ -887,6 +887,7 @@ public:
 	//! ctor taking an istream to a ca table file
 	brute_forcer(std::istream& is, cell_t border, bool dump_on_exit);
 
+	virtual ~brute_forcer() noexcept {}
 };
 
 }

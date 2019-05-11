@@ -20,8 +20,9 @@
 
 #include <algorithm>
 #include <iostream>
-#include <Magick++.h>
-#include <magick/methods.h>
+#include <Magick++/Blob.h>
+#include <Magick++/Image.h>
+
 #include "general.h"
 #include "geometry.h"
 #include "ca.h"

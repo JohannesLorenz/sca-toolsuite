@@ -96,7 +96,7 @@ public:
 	//! ctor taking an istream to a ca table file
 	base(std::istream& is, cell_t border);
 
-	virtual ~base() {}
+	virtual ~base() noexcept {}
 
 	void parse();
 

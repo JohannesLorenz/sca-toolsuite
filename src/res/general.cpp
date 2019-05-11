@@ -56,7 +56,7 @@ int Program::run(int _argc, char **_argv, const HelpStruct *_help)
 		exit(str);
 	} catch(const std::string& str) {
 		exit(str.c_str());
-	} catch(std::exception e) {
+	} catch(const std::exception& e) {
 		exit(e.what());
 	} catch(...) {
 		exit("Unknown error caught. This should never happen.");

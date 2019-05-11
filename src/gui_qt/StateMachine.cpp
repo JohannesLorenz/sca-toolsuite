@@ -20,7 +20,7 @@
 
 #include "StateMachine.h"
 
-const char* (StateMachine::msg[5]) = {
+const char* StateMachine::msg[5] = {
 //	"Welcome. This GUI is currently WIP.",
 	"Stable.",
 	"Instable.",

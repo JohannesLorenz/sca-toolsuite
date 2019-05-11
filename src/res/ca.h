@@ -23,6 +23,8 @@
 #ifndef CA_H
 #define CA_H
 
+#include <random>
+
 #include "random.h"
 #include "ca_basics.h"
 #include "bitgrid.h"

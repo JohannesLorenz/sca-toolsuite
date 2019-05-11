@@ -92,7 +92,9 @@ public:
 		start_time(clock()),
 		at_depth {1} // one root node (TODO)
 		 {}
-	~stats_t() {
+	// dtors are noexcept(true) by default...
+	// hopefully this never happens...
+	~stats_t() noexcept(false) {
 		if(tree_depth != 0)
 		 throw "Error: Tree depth not 0 on exiting.";
 		dump();

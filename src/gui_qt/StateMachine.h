@@ -38,9 +38,10 @@ public:
 		STATE_INSTABLE, //!< instable, but not simulating (i.e. paused)
 		STATE_SIMULATING, //!< simulating right now
 		STATE_STEP, //!< simulating right now, but only for one step
-		STATE_STABLE_PAUSED //!< stable and paused
+		STATE_STABLE_PAUSED, //!< stable and paused
+		STATE_NUM
 	};
-	static const char* (msg[5]);
+	static const char* msg[STATE_NUM]; //!< error messages for each STATE
 
 private:
 	STATE state;

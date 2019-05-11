@@ -21,6 +21,8 @@
 #ifndef GRAPH_DETAIL_H
 #define GRAPH_DETAIL_H
 
+#include <boost/graph/graph_traits.hpp>
+#include <boost/graph/adjacency_list.hpp>
 #include <map>
 
 //#include "contract.h"
@@ -36,7 +38,7 @@ void copy_subgraph(Graph& res, const Graph& src, const Cont& cont)
 		res[new_id_of[u]] = src[u];
 	}
 
-	auto es = boost::edges(src);
+	auto es = boost::edges(src); // TODO: uninitialized value warning
 	auto itr = es.first;
 	for(; itr != es.second; ++itr)
 	{
