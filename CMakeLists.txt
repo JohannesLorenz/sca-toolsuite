@@ -50,6 +50,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 # MESSAGE(" * COMPILER: ${COMPILER} (allowed: [gcc|clang])")
 
 SET(COMPILER "" CACHE STRING "Compiler to use (allowed: [gcc|clang])")
+option(WANT_IMAGEMAGICK "Compile files using imagemagick" OFF)
 
 # testing
 enable_testing ()
@@ -160,7 +161,7 @@ else()
 endif()
 
 find_package(ImageMagick COMPONENTS MagickCore Magick++)
-if(ImageMagick_FOUND)
+if(ImageMagick_FOUND AND WANT_IMAGEMAGICK)
 	set(BUILD_IMG_MAGICK true)
 else()
 	set(BUILD_IMG_MAGICK false)
