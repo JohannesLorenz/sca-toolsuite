@@ -196,33 +196,6 @@ typedef _array_queue_no_file<int*> array_queue_no_file;
 namespace internal
 {
 
-/* This recursive function is slower, so unused
-template<class T>
-void rec(const signed& grid_width, T const ptr)
-{
-	T const ptr_e = ptr + 1;
-	if(++*ptr_e > 3) {
-		*ptr_e&=3;
-		rec(grid_width, ptr_e);
-	}
-	T const ptr_w = ptr - 1;
-	if(++*ptr_w > 3) {
-		*ptr_w&=3;
-		rec(grid_width, ptr_w);
-	}
-	T const ptr_s = ptr + grid_width;
-	if(++*ptr_s > 3) {
-		*ptr_s&=3; // TODO: template variant with ==4 => = 0 ?
-		rec(grid_width, ptr_s);
-	}
-
-	T const ptr_n = ptr - grid_width;
-	if(++*ptr_n > 3) {
-		*ptr_n&=3;
-		rec(grid_width, ptr_n);
-	}
-}*/
-
 /**
 	Develops an 1D avalanche. The helping avalanche container is not flushed, so it contains the whole avalanche afterwards.
 	Important: The cell at hint must be decreased by 1.
