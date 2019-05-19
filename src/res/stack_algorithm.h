@@ -92,6 +92,9 @@ public:
 	inline void write_elem_to_file(const T, const uint32_t*) const {}
 };
 
+//#define sca_assert(expr) assert(expr)
+#define sca_assert(expr)
+
 /*
  * array storage classes
  */
@@ -106,13 +109,52 @@ class _array_stack : public log_nothing_base<T>
 {
 	T* const array; //! first element will never be read: "sentinel"
 	T* stack_ptr;
+	std::size_t max;
 public:
 	using value_type = T;
 	inline _array_stack(unsigned human_grid_size, FILE* = nullptr) :
-		array(new T[human_grid_size+1]), stack_ptr(array) {}
+		array(new T[human_grid_size+1]), stack_ptr(array), max(human_grid_size) {}
 	inline ~_array_stack() { delete[] array; }
-	inline T pop() { return *(stack_ptr--); }
-	inline void push(const T& i) { *(++stack_ptr) = i; }
+	inline T pop() { return *(--stack_ptr); }
+	inline void push(const T& i) {
+		sca_assert(*i == 3); // i==3: first round, i==4: else
+		*stack_ptr = i;
+		stack_ptr += 1; //(i >> 1);
+		}
+	inline void push_maybe(const T& i) {
+		sca_assert(*i <= 4); // i==3: first round, i==4: else
+		sca_assert(*i < -4 || *i >= 0);
+		sca_assert(*i >= 0 || *i < std::numeric_limits<typename std::remove_reference<decltype (*i)>::type>::min() + 128);
+
+		sca_assert((*i > -4)
+			^ !((~(*i >>((sizeof(decltype (*i)))*8-1))) & 1));
+
+
+//		if(*i > 3)
+		{
+		*stack_ptr = i;
+#if 0
+		if(*i > -4) {
+		//std::cout << *i << std::endl;
+		sca_assert(((*i) >> 2) == 0 || ((*i) >> 2) == 1);
+		stack_ptr += ((*i) >> 2);
+		}
+#endif
+		stack_ptr += (
+			(*i >> 2)
+			& ~ (*i >>((sizeof(decltype (*i)))*8-1))
+			/*& 1*/
+			);
+
+
+		assert((stack_ptr - array) < (ptrdiff_t)max);
+		} // if >3
+
+		}
+	/*inline void push_maybe(const T& i) {
+		*
+		*(++stack_ptr) = i;
+	}*/
 	inline bool empty() const { return stack_ptr == array; }
 	inline void flush() const {}
 
@@ -145,6 +187,7 @@ public:
 	inline ~_array_queue_base() { delete[] array; }
 	inline T pop() { return *(++read_ptr); assert(read_ptr <= write_ptr); }
 	inline void push(const T& i) { *(++write_ptr) = i; }
+	inline void push_maybe(const T& i) { push(i); }
 	inline bool empty() const { return read_ptr == write_ptr; }
 	inline void flush() { read_ptr = write_ptr = array; }
 	inline unsigned int size() { return (unsigned int)(write_ptr-array); }
@@ -206,34 +249,49 @@ template<class AvalancheContainer>
 inline void avalanche_1d_hint_noflush(const signed& grid_width, AvalancheContainer& array,
 	typename AvalancheContainer::value_type hint) // TODO: hint is a const pointer!
 {
-	*hint -= 4; // can be <0, so "*hint & 3" is not correct here
+	sca_assert(*hint == 3);
 	array.push(hint);
+	*hint -= 4;
 	do
 	{
 		using vt = typename AvalancheContainer::value_type;
 		vt const ptr = array.pop();
 
+		// invariant: *ptr is already decreased
+		sca_assert(*ptr < 4);
+
+		// TODO: do not use plus for artihmetics at all? use unary bits?
 		vt const ptr_e = ptr + 1;
-		if(++*ptr_e > 3) {
-			*ptr_e&=3;
-			array.push(ptr_e);
-		}
+		++*ptr_e;
+		sca_assert(*ptr_e >= 0 || *ptr_e < -4);
+		//if(*ptr_e > 3) {
+			array.push_maybe(ptr_e);
+		//}
+		{ *ptr_e&=0xC0000003; }
+
 		vt const ptr_w = ptr - 1;
-		if(++*ptr_w > 3) {
-			*ptr_w&=3;
-			array.push(ptr_w);
-		}
+		++*ptr_w;
+		sca_assert(*ptr_w >= 0 || *ptr_w < -4);
+		//if(*ptr_w > 3) {
+			array.push_maybe(ptr_w);
+		//}
+		{ *ptr_w&=0xC0000003; }
+
 		vt const ptr_s = ptr + grid_width;
-		if(++*ptr_s > 3) {
-			*ptr_s&=3; // TODO: template variant with ==4 => = 0 ?
-			array.push(ptr_s);
-		}
+		++*ptr_s;
+		sca_assert(*ptr_s >= 0 || *ptr_s < -4);
+		//if(*ptr_s > 3) {
+			array.push_maybe(ptr_s);
+		//}
+		{ *ptr_s&=0xC0000003; } // TODO: template variant with ==4 => = 0 ?
 
 		vt const ptr_n = ptr - grid_width;
-		if(++*ptr_n > 3) {
-			*ptr_n&=3;
-			array.push(ptr_n);
-		}
+		++*ptr_n;
+		sca_assert(*ptr_n >= 0 || *ptr_n < -4);
+		//if(*ptr_n > 3) {
+			array.push_maybe(ptr_n);
+		//}
+		{ *ptr_n&=0xC0000003; }
 
 	} while( ! array.empty() );
 	array.write_to_file();

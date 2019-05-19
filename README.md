@@ -100,5 +100,7 @@ The following files provide more information:
   * [EXAMPLES](EXAMPLES.md)
   * [FAQ](FAQ.md)
   * [INSTALL](INSTALL.md)
+  * [KNOWLEDGE](KNOWLEGE.md)
+  * [NEWS](NEWS.md)
   * [LICENSE](LICENSE.txt)
 

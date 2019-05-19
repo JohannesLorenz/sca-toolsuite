@@ -40,9 +40,10 @@ class MyProgram : public Program
 		const std::vector<int>& random_seq)
 	{
 		FILE* const out_fp = stdout;
-		AvalancheContainer avalanche_container(dim.area_without_border(), out_fp);
+		AvalancheContainer avalanche_container(dim.area_without_border() * 2, out_fp);
 		for(unsigned int round = 0; round < random_seq.size(); round++)
 		{
+			//std::cout << "ROUND " << round << std::endl;
 			grid[random_seq[round]]++;
 	/*		for(int i = 0; i < grid.size(); ++i) {
 				if(grid[i]==-1)
@@ -109,18 +110,19 @@ class MyProgram : public Program
 			else exit_usage();
 		}
 
-		std::vector<int> char_grid(grid.size()); // (TODO)
+/*		std::vector<int> char_grid(grid.size()); // (TODO)
 		char_grid.resize(grid.size());
 		for(std::size_t i = 0; i < grid.size(); ++i) {
 			char_grid[i] = (grid[i] < CHAR_MIN) ? CHAR_MIN : grid[i];
-		}
+		}*/
+
 		if(log_type == log_type_t::avalanches) {
-			start<sandpile::_array_queue<int*>>(char_grid, dim, random_seq);
+			start<sandpile::_array_queue<int*>>(grid, dim, random_seq);
 		} else {
-			start<sandpile::_array_stack<int*>>(char_grid, dim, random_seq);
-			for(std::size_t i = 0; i < grid.size(); ++i) {
+			start<sandpile::_array_stack<int*>>(grid, dim, random_seq);
+			/*for(std::size_t i = 0; i < grid.size(); ++i) {
 				grid[i] = char_grid[i];
-			}
+			}*/
 			if(log_type == log_type_t::end)
 			 write_grid(stdout, &grid, &dim);
 		}

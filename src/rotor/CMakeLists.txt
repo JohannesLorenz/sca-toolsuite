@@ -1,4 +1,4 @@
-compile("rotor.cpp")
+#compile("rotor.cpp")
 
 cp_script(xrotor)
 
