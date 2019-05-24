@@ -1,6 +1,6 @@
 /*************************************************************************/
 /* sca toolsuite - a toolsuite to simulate cellular automata.            */
-/* Copyright (C) 2011-2015                                               */
+/* Copyright (C) 2011-2019                                               */
 /* Johannes Lorenz                                                       */
 /* https://github.com/JohannesLorenz/sca-toolsuite                       */
 /*                                                                       */
