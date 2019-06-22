@@ -81,9 +81,9 @@ In alphabetical order, the author thanks:
 
 # 5 Links
 Links from this document:
-  2. http://liinwww.ira.uka.de/~thw/
-  4. http://www.sebastianfrehmel.de/studium/diplomarbeit/
-  6. http://boost-spirit.com/home/feedback-and-support/
+  1. http://liinwww.ira.uka.de/~thw/
+  2. http://www.sebastianfrehmel.de/studium/diplomarbeit/
+  3. http://boost-spirit.com/home/feedback-and-support/
 
 # 6 Contact
 Feel free to give feedback. My e-mail address is shown if you execute this in
@@ -100,7 +100,7 @@ The following files provide more information:
   * [EXAMPLES](EXAMPLES.md)
   * [FAQ](FAQ.md)
   * [INSTALL](INSTALL.md)
-  * [KNOWLEDGE](KNOWLEGE.md)
+  * [KNOWLEDGE](KNOWLEDGE.md)
   * [NEWS](NEWS.md)
   * [LICENSE](LICENSE.txt)
 

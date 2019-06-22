@@ -260,38 +260,31 @@ inline void avalanche_1d_hint_noflush(const signed& grid_width, AvalancheContain
 		// invariant: *ptr is already decreased
 		sca_assert(*ptr < 4);
 
-		// TODO: do not use plus for artihmetics at all? use unary bits?
+		// warning: don't refactor north/east/south/west into 1 func:
+		// this can disable compiler optimization
 		vt const ptr_e = ptr + 1;
 		++*ptr_e;
 		sca_assert(*ptr_e >= 0 || *ptr_e < -4);
-		//if(*ptr_e > 3) {
-			array.push_maybe(ptr_e);
-		//}
-		{ *ptr_e&=0xC0000003; }
+		array.push_maybe(ptr_e);
+		*ptr_e &= 0xC0000003;
 
 		vt const ptr_w = ptr - 1;
 		++*ptr_w;
 		sca_assert(*ptr_w >= 0 || *ptr_w < -4);
-		//if(*ptr_w > 3) {
-			array.push_maybe(ptr_w);
-		//}
-		{ *ptr_w&=0xC0000003; }
+		array.push_maybe(ptr_w);
+		*ptr_w &= 0xC0000003;
 
 		vt const ptr_s = ptr + grid_width;
 		++*ptr_s;
 		sca_assert(*ptr_s >= 0 || *ptr_s < -4);
-		//if(*ptr_s > 3) {
-			array.push_maybe(ptr_s);
-		//}
-		{ *ptr_s&=0xC0000003; } // TODO: template variant with ==4 => = 0 ?
+		array.push_maybe(ptr_s);
+		*ptr_s &= 0xC0000003; // TODO: template variant with ==4 => = 0 ?
 
 		vt const ptr_n = ptr - grid_width;
 		++*ptr_n;
 		sca_assert(*ptr_n >= 0 || *ptr_n < -4);
-		//if(*ptr_n > 3) {
-			array.push_maybe(ptr_n);
-		//}
-		{ *ptr_n&=0xC0000003; }
+		array.push_maybe(ptr_n);
+		*ptr_n &= 0xC0000003;
 
 	} while( ! array.empty() );
 	array.write_to_file();
