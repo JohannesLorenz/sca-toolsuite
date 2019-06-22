@@ -41,7 +41,7 @@ Reasons for using it include the following.
     ```
   * **For sandpiles, we provide the (probably) worlds fastest algorithm**. Our
     computation time was 37 per cent of the fastest algorithm we knew of
-    before. For details, see `6 Enclosed files`.
+    before. For details, see `7 Enclosed files`.
   * A **GUI**. It works for all CA.
   * **Bug safety** is important: Algorithms are kept simple and are being
     tested automatically.
