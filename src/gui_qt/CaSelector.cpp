@@ -48,8 +48,8 @@ void CaSelector::try_accept()
 	{
 		eqsolver::expression_ast ast;
 		// TODO: parse only, not phrase?
-		eqsolver::build_tree(input_edit.widget().text().toAscii().data(), &ast);
-		eqsolver::build_tree(formula_edit.widget().toPlainText().toAscii().data(), &ast);
+		eqsolver::build_tree(input_edit.widget().text().toLocal8Bit().data(), &ast);
+		eqsolver::build_tree(formula_edit.widget().toPlainText().toLocal8Bit().data(), &ast);
 	}
 	catch(std::string err)
 	{
@@ -97,7 +97,7 @@ sca::ca::input_ca* CaSelector::instantiate_ca()
 	using eq_sim_t = sca::ca::simulator_t<sca::ca::eqsolver_t,
 		def_coord_traits, def_cell_traits>;
 	return new eq_sim_t(
-		formula_edit.widget().toPlainText().toAscii().data(),
-		input_edit.widget().text().toAscii().data()
+		formula_edit.widget().toPlainText().toLocal8Bit().data(),
+		input_edit.widget().text().toLocal8Bit().data()
 		);
 }

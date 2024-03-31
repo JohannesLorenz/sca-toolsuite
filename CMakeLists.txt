@@ -2,7 +2,7 @@
 # General
 #
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 
 # Compiler - must be done before "project"
 
@@ -147,12 +147,13 @@ find_package(Boost 1.46.0
 	REQUIRED
 	COMPONENTS graph)
 
-find_package(Qt4)
-if(QT4_FOUND)
+find_package(Qt5
+	COMPONENTS Widgets)
+if(Qt5_FOUND)
 	set(BUILD_QT_GUI true)
-else(QT4_FOUND)
+else(Qt5_FOUND)
 	set(BUILD_QT_GUI false)
-endif(QT4_FOUND)
+endif(Qt5_FOUND)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/usr/CMakeLists.txt")
 	set(BUILD_USR_DIR true)
