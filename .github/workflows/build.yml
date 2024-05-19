@@ -16,7 +16,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Install dependencies
-      run: apt-get install -y libboost-all-dev
+      run: sudo apt-get install -y libboost-all-dev
     - name: Configure
       run: mkdir build && cd build && cmake -DCOMPILER=native -DCMAKE_BUILD_TYPE=Release -DNO_BOOST_GRAPH=1 ..
     - name: Build
