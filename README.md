@@ -1,3 +1,5 @@
+[![Build status](https://github.com/JohannesLorenz/sca-toolsuite/actions/workflows/build.yml/badge.svg)](https://github.com/JohannesLorenz/sca-toolsuite/actions/workflows/build.yml)
+
 # Greetings
 Welcome! Thank you for considering the README file.
 

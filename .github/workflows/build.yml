@@ -1,0 +1,23 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Configure
+      run: mkdir build && cd build && cmake -DCOMPILER=native -DCMAKE_BUILD_TYPE=Release -DNO_BOOST_GRAPH=1 ..
+    - name: Build
+      run: cmake --build build
+    - name: Run tests
+      run: cmake --build build --target test
