@@ -187,7 +187,9 @@ public:
 	inline ~_array_queue_base() { delete[] array; }
 	inline T pop() { return *(++read_ptr); assert(read_ptr <= write_ptr); }
 	inline void push(const T& i) { *(++write_ptr) = i; }
-	inline void push_maybe(const T& i) { push(i); }
+	inline void push_maybe(const T& i) {
+		if(*i > 3) push(i);
+	}
 	inline bool empty() const { return read_ptr == write_ptr; }
 	inline void flush() { read_ptr = write_ptr = array; }
 	inline unsigned int size() { return (unsigned int)(write_ptr-array); }

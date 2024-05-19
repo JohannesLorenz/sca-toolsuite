@@ -1,7 +1,10 @@
 #!/bin/sh
 
 # Set this to 1 if you want to do non obligatory tests
-DO_OBLIGATORY="0"
+if [ ! "$DO_OBLIGATORY" ]
+then
+	DO_OBLIGATORY="0"
+fi
 
 do_eval()
 {
