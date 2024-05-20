@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: cmake --build build
     - name: Run tests
-      run: cmake --build build --rerun-failed --output-on-failure --target test
+      run: ctest --rerun-failed --output-on-failure --test-dir build
