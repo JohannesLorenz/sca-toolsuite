@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #RETURN_VALUE=./algo/burning_test>/dev/null
 ./algo/burning_test>/dev/null
