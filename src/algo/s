@@ -1,2 +1,2 @@
-#!/bin/sh
+#!/bin/bash
 algo/relax s $1 $2

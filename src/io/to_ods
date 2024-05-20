@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 usage ()
 {
 	echo "Converts a grid into an ODS table file for OpenOffice"

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Set this to 1 if you want to do non obligatory tests
 if [ ! "$DO_OBLIGATORY" ]
