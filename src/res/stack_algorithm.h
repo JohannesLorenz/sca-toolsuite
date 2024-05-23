@@ -386,7 +386,7 @@ using fix_log_s = _fix_log_s<int*>;
 /*
  * fix algorithms
  */
-//! TODO: fix should be able to substract the superstable id
+//! TODO: fix should be able to subtract the superstable id
 template<class AvalancheContainer, class ResultType>
 inline void do_fix(/*std::vector<int>* grid,*/ const dimension& dim, AvalancheContainer& array, ResultType& result_logger)
 {
@@ -400,7 +400,16 @@ inline void do_fix(/*std::vector<int>* grid,*/ const dimension& dim, AvalancheCo
 	{
 		using vt = typename AvalancheContainer::value_type;
 		vt const cur_element = array.pop(); // TODO!!
-		//printf("cur: %d\n",cur_element);
+		//printf("cur: %d\n",(cur_element-grid->data()));
+		
+#if 0
+		for(std::size_t i = 0; i < grid->size(); ++i)
+		{
+			std::cout << ((*grid)[i]&GRAIN_BITS) << " ";
+			if (i%6==5) { std::cout << std::endl; }
+		}
+		std::cout << std::endl;
+#endif
 
 		*cur_element &= GRAIN_BITS;
 		fire_times = *cur_element >>2; // keep up invariant: elements in array are already decreased
