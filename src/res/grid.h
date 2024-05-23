@@ -535,7 +535,8 @@ public:
 	}
 
 	//! constructor which reads a grid immediatelly
-	_grid_t(std::istream& stream, u_coord_t border_width, cell_t border = 0) :
+	_grid_t(std::istream& stream, u_coord_t border_width,
+		cell_t border = std::numeric_limits<int>::min()) :
 		base(border_width)
 	{
 		read_grid(stream, _data, _dim, bw, border);
